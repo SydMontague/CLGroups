@@ -18,7 +18,7 @@ import org.kitteh.tag.PlayerReceiveNameTagEvent;
 public class GroupListener implements Listener
 {
     private CLGroups plugin;
-    private Set<Material> farmMap = new HashSet<Material>()
+    private Set<Material> farmMapBreak = new HashSet<Material>()
     {
         private static final long serialVersionUID = 1L;
         {
@@ -26,8 +26,21 @@ public class GroupListener implements Listener
             add(Material.CROPS);
             add(Material.CARROT);
             add(Material.PUMPKIN);
+            add(Material.MELON_BLOCK);
+            add(Material.SUGAR_CANE_BLOCK);
+            add(Material.NETHER_WARTS);
+            add(Material.RED_MUSHROOM);
+            add(Material.BROWN_MUSHROOM);
+        }
+    };
+    private Set<Material> farmMapPlace = new HashSet<Material>()
+    {
+        private static final long serialVersionUID = 1L;
+        {
+            add(Material.POTATO);
+            add(Material.CROPS);
+            add(Material.CARROT);
             add(Material.PUMPKIN_STEM);
-            add(Material.MELON);
             add(Material.MELON_STEM);
             add(Material.SUGAR_CANE_BLOCK);
             add(Material.NETHER_WARTS);
@@ -101,7 +114,7 @@ public class GroupListener implements Listener
         if (e.getPlayer().hasPermission("clgroups.admin"))
             return;
         
-        if (farmMap.contains(e.getBlock().getType()))
+        if (farmMapBreak.contains(e.getBlock().getType()))
             return;
         
         Plot plot = plugin.getPlot(e.getBlock().getLocation());
@@ -121,6 +134,9 @@ public class GroupListener implements Listener
             return;
         
         if (e.getPlayer().hasPermission("clgroups.admin"))
+            return;        
+
+        if (farmMapPlace.contains(e.getBlock().getType()))
             return;
         
         Plot plot = plugin.getPlot(e.getBlock().getLocation());
