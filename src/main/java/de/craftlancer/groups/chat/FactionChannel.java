@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.Faction;
 import de.craftlancer.groups.GroupPlayer;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionChannel extends Channel
 {
@@ -31,7 +32,7 @@ public class FactionChannel extends Channel
     @Override
     public boolean isAllowed(String p)
     {
-        GroupPlayer gp = getPlugin().getGroupPlayer(p);
+        GroupPlayer gp = PlayerManager.getGroupPlayer(p);
         return getFaction().equals(gp.getFaction()) && (getFaction().hasPermission(p, "faction.chat") || (gp.getTown() != null && gp.getTown().hasPermission(p, "faction.chat")));
     }
 }

@@ -11,6 +11,9 @@ import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.PlotManager;
+import de.craftlancer.groups.managers.TownManager;
 
 public class TownNewCommand extends GroupSubCommand
 {
@@ -30,8 +33,8 @@ public class TownNewCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
-            GroupPlayer gp = getPlugin().getGroupPlayer(p.getName());
+            Plot plot = PlotManager.getPlot(p.getLocation());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(p.getName());
             Town town = gp.getTown();
                         
             if (town == null)
@@ -40,16 +43,16 @@ public class TownNewCommand extends GroupSubCommand
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_LEAVE_LASTMAYOR);
             else if (!town.getFaction().hasPermission(sender.getName(), "faction.newtown"))
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (getPlugin().checkPlotDistance(plot, p))
+            else if (PlotManager.checkPlotDistance(plot, p))
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_NEW_DISTANCE);
-            else if (getPlugin().hasTown(args[1]))
+            else if (TownManager.hasTown(args[1]))
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_NEW_EXISTS);
             else
             {
                 Faction fac = town.getFaction();
                 town.removeMember(sender.getName());
                 
-                getPlugin().addTown(new Town(getPlugin(), plot, args[1], sender.getName(), fac));
+                TownManager.addTown(new Town(getPlugin(), plot, args[1], sender.getName(), fac));
 
                 town.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_LEAVE_LEFT, sender.getName()));
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_NEW_SUCCESS);

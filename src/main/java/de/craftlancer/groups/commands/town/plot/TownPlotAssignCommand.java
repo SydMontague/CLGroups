@@ -9,6 +9,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class TownPlotAssignCommand extends GroupSubCommand
 {
@@ -31,7 +32,7 @@ public class TownPlotAssignCommand extends GroupSubCommand
         {
             Player p = (Player) sender;
             OfflinePlayer p2 = getPlugin().getServer().getOfflinePlayer(args[2]);
-            Plot plot = getPlugin().getPlot(p.getLocation());
+            Plot plot = PlotManager.getPlot(p.getLocation());
             
             if (plot.getTown() == null || plot.getOwner() != null)
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN);

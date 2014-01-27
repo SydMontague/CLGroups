@@ -9,6 +9,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 import de.craftlancer.groups.questions.QuestionListener;
 import de.craftlancer.groups.questions.TownInviteQuestion;
 
@@ -31,9 +32,9 @@ public class TownInviteCommand extends GroupSubCommand
         else
             for (int i = 1; i < args.length; i++)
             {
-                GroupPlayer gp = getPlugin().getGroupPlayer(args[i]);
+                GroupPlayer gp = PlayerManager.getGroupPlayer(args[i]);
                 Player p = getPlugin().getServer().getPlayerExact(args[i]);
-                Town town = getPlugin().getGroupPlayer(sender.getName()).getTown();
+                Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
                 
                 if (town == null)
                     sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);

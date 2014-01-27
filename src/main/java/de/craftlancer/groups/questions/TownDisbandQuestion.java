@@ -20,7 +20,7 @@ public class TownDisbandQuestion extends Question
     @Override
     public void execute()
     {
-        getPlugin().disbandTown(town);
+        town.disband();
         for(CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_TOWN_DISBAND_SUCCESS);
         Bukkit.broadcastMessage(String.format(GroupLanguage.QUESTION_TOWN_DISBAND_BROADCAST, town.getName()));

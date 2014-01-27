@@ -11,6 +11,9 @@ import org.bukkit.inventory.Inventory;
 import de.craftlancer.groups.buildings.Building;
 import de.craftlancer.groups.chat.Channel;
 import de.craftlancer.groups.chat.TownChannel;
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.TownManager;
 
 /*
  * town:
@@ -55,14 +58,14 @@ public class Town extends GroupHolder
     public Town(CLGroups plugin, String name, FileConfiguration config)
     {
         super(plugin, name, config.getString(name + ".name"), config);
-        faction = plugin.getFaction(config.getString(getConfigKey() + ".faction"));
+        faction = FactionManager.getFaction(config.getString(getConfigKey() + ".faction"));
         faction.addTown(this);
         welcomeMsg = config.getString(getConfigKey() + ".welcomeMsg");
         farewellMsg = config.getString(getConfigKey() + ".farewellMsg");
         loginMsg = config.getString(getConfigKey() + ".loginMsg");
         
         for (String s : getMember())
-            plugin.getGroupPlayer(s).setTown(this);
+            PlayerManager.getGroupPlayer(s).setTown(this);
         
         chan = new TownChannel(getPlugin(), this);
         getPlugin().getChatManager().registerChannel(getChannel());
@@ -120,7 +123,7 @@ public class Town extends GroupHolder
     public void addMember(String p)
     {
         getGroup("member").addPlayer(p);
-        getPlugin().getGroupPlayer(p).setTown(this);
+        PlayerManager.getGroupPlayer(p).setTown(this);
     }
     
     public void sendMessage(String string)
@@ -182,7 +185,7 @@ public class Town extends GroupHolder
         for (Group g : getGroups())
             g.removePlayer(string);
         
-        getPlugin().getGroupPlayer(string).setTown(null);
+        PlayerManager.getGroupPlayer(string).setTown(null);
     }
     
     public void clear()
@@ -224,5 +227,16 @@ public class Town extends GroupHolder
     {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    public void disband()
+    {
+        TownManager.disbandTown(this);
+    }
+    
+    public void rename(String string)
+    {
+        TownManager.renameTown(this, string);
+        setName(string);
     }
 }

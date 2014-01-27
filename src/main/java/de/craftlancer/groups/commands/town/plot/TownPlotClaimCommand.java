@@ -9,6 +9,8 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class TownPlotClaimCommand extends GroupSubCommand
 {
@@ -26,8 +28,8 @@ public class TownPlotClaimCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
-            Town t = getPlugin().getGroupPlayer(p.getName()).getTown();
+            Plot plot = PlotManager.getPlot(p.getLocation());
+            Town t = PlayerManager.getGroupPlayer(p.getName()).getTown();
             
             if (t == null)
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
@@ -37,7 +39,7 @@ public class TownPlotClaimCommand extends GroupSubCommand
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_NOTNEXTTOWN);
             else if (!t.hasPermission(p.getName(), "town.plot.claim"))
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (!getPlugin().checkPlotLimit(t))
+            else if (!PlotManager.checkPlotLimit(t))
                 sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_LIMIT);
             else
             {

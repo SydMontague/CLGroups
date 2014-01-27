@@ -14,6 +14,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class TownPlotAddCommand extends GroupSubCommand
 {
@@ -33,7 +34,7 @@ public class TownPlotAddCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
+            Plot plot = PlotManager.getPlot(p.getLocation());
             Town t = plot.getTown();
             Faction f = t.getFaction();
             
@@ -69,7 +70,7 @@ public class TownPlotAddCommand extends GroupSubCommand
                 if (!(sender instanceof Player))
                     return null;
                 Player p = (Player) sender;
-                Plot plot = getPlugin().getPlot(p.getLocation());
+                Plot plot = PlotManager.getPlot(p.getLocation());
                 Town t = plot.getTown();
                 Faction f = t.getFaction();
                 

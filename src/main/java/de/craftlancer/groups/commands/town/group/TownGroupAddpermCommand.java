@@ -12,6 +12,7 @@ import de.craftlancer.groups.GroupDefaultLists;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class TownGroupAddpermCommand extends GroupSubCommand
 {
@@ -30,7 +31,7 @@ public class TownGroupAddpermCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
         else
         {
-            Town town = getPlugin().getGroupPlayer(sender.getName()).getTown();
+            Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
             
             if (town == null)
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
@@ -58,7 +59,7 @@ public class TownGroupAddpermCommand extends GroupSubCommand
         switch (args.length)
         {
             case 3:
-                return Utils.getMatches(args[2], getPlugin().getGroupPlayer(sender.getName()).getTown().getGroupNames());
+                return Utils.getMatches(args[2], PlayerManager.getGroupPlayer(sender.getName()).getTown().getGroupNames());
             case 4:
                 return Utils.getMatches(args[3], GroupDefaultLists.PERMLIST);
             default:

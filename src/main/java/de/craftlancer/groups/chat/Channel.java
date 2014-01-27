@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupPlayer;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class Channel
 {
@@ -119,7 +120,7 @@ public class Channel
     
     public String getPlayerFormat(String p)
     {
-        GroupPlayer gp = plugin.getGroupPlayer(p);
+        GroupPlayer gp = PlayerManager.getGroupPlayer(p);
         String localFormat = format;
         
         ChatColor pColor = gp.getFaction() == null ? ChatColor.WHITE : gp.getFaction().getColor();

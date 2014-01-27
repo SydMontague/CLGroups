@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.TownManager;
 
 public class TownListCommand extends GroupSubCommand
 {
@@ -24,7 +25,7 @@ public class TownListCommand extends GroupSubCommand
         {
             sender.sendMessage(GroupLanguage.COMMAND_TOWN_LIST_HEADER);
             StringBuilder str = new StringBuilder();
-            for (String g : getPlugin().getTownNames())
+            for (String g : TownManager.getTownNames())
                 str.append(g + ", ");
             if (str.length() > 2)
                 str.delete(str.length() - 2, str.length());

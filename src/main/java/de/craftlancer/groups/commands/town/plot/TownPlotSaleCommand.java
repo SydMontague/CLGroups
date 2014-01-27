@@ -8,6 +8,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 @Deprecated
 public class TownPlotSaleCommand extends GroupSubCommand
@@ -28,7 +29,7 @@ public class TownPlotSaleCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
+            Plot plot = PlotManager.getPlot(p.getLocation());
             //int price;
             
             try

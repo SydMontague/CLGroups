@@ -5,15 +5,21 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.kitteh.tag.PlayerReceiveNameTagEvent;
+
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class GroupListener implements Listener
 {
@@ -60,8 +66,8 @@ public class GroupListener implements Listener
         if (e.getTag().equals("PumpkinBandit"))
             return;
         
-        Faction g1 = plugin.getPlayerGroup(e.getPlayer());
-        Faction g2 = plugin.getPlayerGroup(e.getNamedPlayer());
+        Faction g1 = FactionManager.getPlayerGroup(e.getPlayer());
+        Faction g2 = FactionManager.getPlayerGroup(e.getNamedPlayer());
         
         Reputation rep1 = g1 != null ? g1.getReputation(e.getNamedPlayer()) : Reputation.UNDEFINED;
         Reputation rep2 = g2 != null ? g2.getReputation(e.getPlayer()) : Reputation.UNDEFINED;
@@ -73,51 +79,21 @@ public class GroupListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent e)
     {
-        Town t = plugin.getGroupPlayer(e.getPlayer().getName()).getTown();
+        Town t = PlayerManager.getGroupPlayer(e.getPlayer().getName()).getTown();
         if (t != null)
             e.getPlayer().sendMessage(t.getLoginMsg());
-    }
-    
-    //@EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerMove(PlayerMoveEvent e)
-    {
-        if (!e.getFrom().getWorld().getName().equalsIgnoreCase("world"))
-            return;
-        
-        Plot f = plugin.getPlot(e.getFrom());
-        Plot t = plugin.getPlot(e.getTo());
-        Town from = f.getTown();
-        Town to = t.getTown();
-        String towner = t.getOwner() == null ? "" : " - " + t.getOwner().getName();
-        String townName = to == null ? "Unbesetzt" : to.getName() + " (" + to.getFaction().getName() + ")";
-        
-        if (from == to && f.getOwner() == t.getOwner())
-            return;
-        
-        if (from != null)
-            if (from.getFarewellMsg() != null && from.getFarewellMsg().length() != 0)
-                e.getPlayer().sendMessage(from.getFarewellMsg());
-        
-        e.getPlayer().sendMessage(townName + towner);
-        
-        if (to != null)
-            if (to.getWelcomeMsg() != null && to.getWelcomeMsg().length() != 0)
-                e.getPlayer().sendMessage(to.getWelcomeMsg());
     }
     
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e)
     {
-        if (!e.getBlock().getWorld().getName().equalsIgnoreCase("world"))
-            return;
-        
         if (e.getPlayer().hasPermission("clgroups.admin"))
             return;
         
-        if (farmMapBreak.contains(e.getBlock().getType()))
+        if (farmMapBreak.contains(e.getBlock().getType()) && (plugin.getPvPTimer() == null || plugin.getPvPTimer().isProtected(e.getPlayer())))
             return;
         
-        Plot plot = plugin.getPlot(e.getBlock().getLocation());
+        Plot plot = PlotManager.getPlot(e.getBlock().getLocation());
         String p = e.getPlayer().getName();
         
         if (!plot.canBuild(p))
@@ -130,16 +106,13 @@ public class GroupListener implements Listener
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e)
     {
-        if (!e.getBlock().getWorld().getName().equalsIgnoreCase("world"))
+        if (e.getPlayer().hasPermission("clgroups.admin"))
             return;
         
-        if (e.getPlayer().hasPermission("clgroups.admin"))
-            return;        
-
         if (farmMapPlace.contains(e.getBlock().getType()))
             return;
         
-        Plot plot = plugin.getPlot(e.getBlock().getLocation());
+        Plot plot = PlotManager.getPlot(e.getBlock().getLocation());
         String p = e.getPlayer().getName();
         
         if (!plot.canBuild(p))
@@ -157,6 +130,32 @@ public class GroupListener implements Listener
             e.getPlayer().sendMessage(GroupLanguage.GAME_BUILD_FORBIDDEN);
             e.getPlayer().removeMetadata("clgroups.placemsg", plugin);
         }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onAttack(EntityDamageByEntityEvent e)
+    {
+        if (!(e.getEntity() instanceof Player))
+            return;
+        
+        Player victim = (Player) e.getEntity();
+        Player attacker;
+        
+        if (e.getDamager() instanceof Projectile && (((Projectile) e.getDamager()).getShooter() instanceof Player))
+            attacker = (Player) ((Projectile) e.getDamager()).getShooter();
+        else if (e.getDamager() instanceof Player)
+            attacker = (Player) e.getDamager();
+        else
+            return;
+        
+        Plot p = PlotManager.getPlot(victim.getLocation());
+        Town t1 = PlayerManager.getGroupPlayer(attacker.getName()).getTown();
+        Town t2 = PlayerManager.getGroupPlayer(victim.getName()).getTown();
+        
+        if (p.getTown() == null || t1 == null || t2 == null || t1 != t2 || p.getTown() != t1)
+            return;
+        
+        e.setCancelled(true);
     }
     
     @EventHandler(priority = EventPriority.MONITOR)

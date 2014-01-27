@@ -11,6 +11,7 @@ import de.craftlancer.groups.Faction;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionGroupDeleteCommand extends GroupSubCommand
 {
@@ -29,7 +30,7 @@ public class FactionGroupDeleteCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             
             if (f == null)
@@ -54,7 +55,7 @@ public class FactionGroupDeleteCommand extends GroupSubCommand
         switch (args.length)
         {
             case 3:
-                return Utils.getMatches(args[2], getPlugin().getGroupPlayer(sender.getName()).getTown().getGroupNames());
+                return Utils.getMatches(args[2], PlayerManager.getGroupPlayer(sender.getName()).getFaction().getGroupNames());
             default:
                 return null;
         }

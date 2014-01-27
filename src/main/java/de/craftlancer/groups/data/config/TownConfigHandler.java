@@ -3,6 +3,7 @@ package de.craftlancer.groups.data.config;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.data.TownDataHandler;
+import de.craftlancer.groups.managers.TownManager;
 
 public class TownConfigHandler extends ConfigDataHandler implements TownDataHandler
 {
@@ -17,13 +18,13 @@ public class TownConfigHandler extends ConfigDataHandler implements TownDataHand
     public void load()
     {
         for (String s : getConfig().getKeys(false))
-            getPlugin().addTown(new Town(getPlugin(), s, getConfig()));
+            TownManager.addTown(new Town(getPlugin(), s, getConfig()));
     }
     
     @Override
     public void save()
     {
-        for (Town t : getPlugin().getTowns())
+        for (Town t : TownManager.getTowns())
             t.save(getConfig());
         
         saveConfig();

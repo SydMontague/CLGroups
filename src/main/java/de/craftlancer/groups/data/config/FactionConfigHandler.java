@@ -3,6 +3,7 @@ package de.craftlancer.groups.data.config;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.Faction;
 import de.craftlancer.groups.data.FactionDataHandler;
+import de.craftlancer.groups.managers.FactionManager;
 
 public class FactionConfigHandler extends ConfigDataHandler implements FactionDataHandler
 {
@@ -16,7 +17,7 @@ public class FactionConfigHandler extends ConfigDataHandler implements FactionDa
     @Override
     public void save()
     {
-        for (Faction f : getPlugin().getFactions())
+        for (Faction f : FactionManager.getFactions())
             f.save(getConfig());
         
         saveConfig();
@@ -26,7 +27,7 @@ public class FactionConfigHandler extends ConfigDataHandler implements FactionDa
     public void load()
     {
         for (String s : getConfig().getKeys(false))
-            getPlugin().addFaction(new Faction(getPlugin(), s, getConfig()));
+            FactionManager.addFaction(new Faction(getPlugin(), s, getConfig()));
         
     }
     

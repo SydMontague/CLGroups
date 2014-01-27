@@ -14,6 +14,8 @@ import de.craftlancer.groups.Faction;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionColorCommand extends GroupSubCommand
 {
@@ -54,7 +56,7 @@ public class FactionColorCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             ChatColor color = colorMap.get(args[1].toUpperCase());
             
@@ -64,7 +66,7 @@ public class FactionColorCommand extends GroupSubCommand
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_COLOR_NOTACOLOR);
             else if (!f.hasPermission(gp.getName(), "faction.color"))
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else if (getPlugin().isColorTaken(color))
+            else if (FactionManager.isColorTaken(color))
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_COLOR_TAKEN);
             else
             {

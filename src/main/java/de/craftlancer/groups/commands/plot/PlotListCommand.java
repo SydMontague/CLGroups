@@ -10,6 +10,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class PlotListCommand extends GroupSubCommand
 {
@@ -27,7 +28,7 @@ public class PlotListCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Set<Plot> plots = getPlugin().getPlots(p);
+            Set<Plot> plots = PlotManager.getPlots(p);
             
             sender.sendMessage(GroupLanguage.COMMAND_PLOT_LIST_HEADER);
             StringBuilder str = new StringBuilder();

@@ -11,6 +11,8 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.TownManager;
 
 public class TownInfoCommand extends GroupSubCommand
 {
@@ -28,15 +30,15 @@ public class TownInfoCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
         else if (args.length < 2 && !(sender instanceof Player))
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (args.length >= 2 && !getPlugin().hasTown(args[1]))
+        else if (args.length >= 2 && !TownManager.hasTown(args[1]))
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTOWN);
         else
         {
             Town town;
             if (args.length >= 2)
-                town = getPlugin().getTown(args[1]);
+                town = TownManager.getTown(args[1]);
             else
-                town = getPlugin().getGroupPlayer(sender.getName()).getTown();
+                town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
             
             if (town == null)
             {
@@ -70,7 +72,7 @@ public class TownInfoCommand extends GroupSubCommand
         switch (args.length)
         {
             case 2:
-                return Utils.getMatches(args[1], getPlugin().getTownNames());
+                return Utils.getMatches(args[1], TownManager.getTownNames());
             default:
                 return null;
         }

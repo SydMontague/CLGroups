@@ -15,6 +15,8 @@ import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Repuable;
 import de.craftlancer.groups.Reputation;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionSetrepCommand extends GroupSubCommand
 {
@@ -35,7 +37,7 @@ public class FactionSetrepCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_FACTION_NOTAREPU);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             Reputation repu = Reputation.valueOf(args[args.length - 1].toUpperCase());
             
@@ -48,11 +50,11 @@ public class FactionSetrepCommand extends GroupSubCommand
                 Repuable repuable;
                 
                 if (args[1].startsWith("p:"))
-                    repuable = getPlugin().getGroupPlayer(args[1].substring(2));
+                    repuable = PlayerManager.getGroupPlayer(args[1].substring(2));
                 else if (args[1].startsWith("f:"))
-                    repuable = getPlugin().getFaction(args[1].substring(2));
+                    repuable = FactionManager.getFaction(args[1].substring(2));
                 else
-                    repuable = getPlugin().hasFaction(args[1]) ? getPlugin().getFaction(args[1]) : getPlugin().getGroupPlayer(args[1]);
+                    repuable = FactionManager.hasFaction(args[1]) ? FactionManager.getFaction(args[1]) : PlayerManager.getGroupPlayer(args[1]);
                 
                 if (repuable == null)
                 {
@@ -79,7 +81,7 @@ public class FactionSetrepCommand extends GroupSubCommand
                 for (Player op : getPlugin().getServer().getOnlinePlayers())
                     if (op.getName().startsWith(args[1]))
                         tmp.add(op.getName());
-                tmp.addAll(Utils.getMatches(args[1], getPlugin().getFactionNames()));
+                tmp.addAll(Utils.getMatches(args[1], FactionManager.getFactionNames()));
                 return tmp;
             case 3:
                 return Utils.getMatches(args[2].toUpperCase(), Reputation.getNames());

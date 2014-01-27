@@ -9,6 +9,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class TownKickCommand extends GroupSubCommand
 {
@@ -32,9 +33,9 @@ public class TownKickCommand extends GroupSubCommand
         else
             for (int i = 1; i < args.length; i++)
             {
-                GroupPlayer gp = getPlugin().getGroupPlayer(args[i]);
+                GroupPlayer gp = PlayerManager.getGroupPlayer(args[i]);
                 OfflinePlayer p = getPlugin().getServer().getOfflinePlayer(args[i]);
-                Town town = getPlugin().getGroupPlayer(sender.getName()).getTown();
+                Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
                 
                 if (town == null || !town.equals(gp.getTown()))
                     sender.sendMessage(GroupLanguage.COMMAND_TOWN_KICK_NOTINTOWN);

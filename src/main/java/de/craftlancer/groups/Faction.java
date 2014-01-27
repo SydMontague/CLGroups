@@ -16,6 +16,7 @@ import org.kitteh.tag.TagAPI;
 
 import de.craftlancer.groups.chat.Channel;
 import de.craftlancer.groups.chat.FactionChannel;
+import de.craftlancer.groups.managers.FactionManager;
 
 /*
  * faction:
@@ -168,7 +169,7 @@ public class Faction extends GroupHolder implements Repuable
     
     public Reputation getReputation(String p)
     {
-        Faction f = getPlugin().getPlayerGroup(p);
+        Faction f = FactionManager.getPlayerGroup(p);
         
         if (hasMember(p))
             return Reputation.OWN_FACTION;
@@ -317,5 +318,16 @@ public class Faction extends GroupHolder implements Repuable
             groupRepu.put(newName, groupRepu.get(oldName));
             groupRepu.remove(oldName);
         }
+    }
+    
+    public void disband()
+    {
+        FactionManager.disbandFaction(this);
+    }
+    
+    public void rename(String newName)
+    {
+        FactionManager.renameFaction(this, newName);
+        setName(newName);
     }
 }

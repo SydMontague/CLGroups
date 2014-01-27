@@ -13,6 +13,7 @@ import de.craftlancer.groups.GroupDefaultLists;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionGroupRemovepermCommand extends GroupSubCommand
 {
@@ -31,7 +32,7 @@ public class FactionGroupRemovepermCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             
             if (f == null)
@@ -60,9 +61,9 @@ public class FactionGroupRemovepermCommand extends GroupSubCommand
         switch (args.length)
         {
             case 3:
-                return Utils.getMatches(args[2], getPlugin().getGroupPlayer(sender.getName()).getTown().getFaction().getGroupNames());
+                return Utils.getMatches(args[2], PlayerManager.getGroupPlayer(sender.getName()).getFaction().getGroupNames());
             case 4:
-                return Utils.getMatches(args[3], getPlugin().getGroupPlayer(sender.getName()).getTown().getFaction().getGroup(args[2]).getPermissions());
+                return Utils.getMatches(args[3], PlayerManager.getGroupPlayer(sender.getName()).getFaction().getGroup(args[2]).getPermissions());
             default:
                 return null;
         }

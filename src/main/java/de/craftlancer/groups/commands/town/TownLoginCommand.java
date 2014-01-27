@@ -8,6 +8,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class TownLoginCommand extends GroupSubCommand
 {
@@ -26,7 +27,7 @@ public class TownLoginCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Town town = gp.getTown();
             if (town == null)
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);

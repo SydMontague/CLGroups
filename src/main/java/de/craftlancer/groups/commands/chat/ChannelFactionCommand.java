@@ -10,6 +10,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.chat.Channel;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class ChannelFactionCommand extends GroupSubCommand
 {
@@ -28,7 +29,7 @@ public class ChannelFactionCommand extends GroupSubCommand
         {
             Channel chan = getPlugin().getChatManager().getActiveChannel((Player) sender);
             
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             
             if (f == null)

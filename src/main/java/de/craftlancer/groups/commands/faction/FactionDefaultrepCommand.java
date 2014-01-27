@@ -12,6 +12,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Reputation;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionDefaultrepCommand extends GroupSubCommand
 {
@@ -31,7 +32,7 @@ public class FactionDefaultrepCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_FACTION_NOTAREPU);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             Reputation repu = Reputation.valueOf(args[1].toUpperCase());
             

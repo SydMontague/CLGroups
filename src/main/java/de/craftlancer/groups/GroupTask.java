@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import de.craftlancer.groups.managers.PlotManager;
+
 public class GroupTask extends BukkitRunnable
 {
     private HashMap<String, Location> locMap = new HashMap<String, Location>();
@@ -21,8 +23,8 @@ public class GroupTask extends BukkitRunnable
     {
         for (Player p : plugin.getServer().getOnlinePlayers())
         {            
-            Plot f = plugin.getPlot(locMap.containsKey(p.getName()) ? locMap.get(p.getName()) : p.getLocation());
-            Plot t = plugin.getPlot(p.getLocation());
+            Plot f = PlotManager.getPlot(locMap.containsKey(p.getName()) ? locMap.get(p.getName()) : p.getLocation());
+            Plot t = PlotManager.getPlot(p.getLocation());
             Town from = f.getTown();
             Town to = t.getTown();
             

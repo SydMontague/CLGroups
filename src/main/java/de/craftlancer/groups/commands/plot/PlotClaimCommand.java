@@ -8,6 +8,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class PlotClaimCommand extends GroupSubCommand
 {
@@ -25,15 +26,15 @@ public class PlotClaimCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
+            Plot plot = PlotManager.getPlot(p.getLocation());
             
             if (!plot.isBuyable())
                 sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_NOTFORSALE);
-            else if (!plot.isTownPlot() && getPlugin().checkPlotDistance(plot, p))
+            else if (!plot.isTownPlot() && PlotManager.checkPlotDistance(plot, p))
                 sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_TOOCLOSE);
             else if (plot.isTownPlot() && !plot.getTown().hasPermission(p.getName(), "town.buy"))
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (getPlugin().checkPlotLimit(p))
+            else if (PlotManager.checkPlotLimit(p))
                 sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_LIMIT);
             else
             {

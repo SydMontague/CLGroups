@@ -14,6 +14,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class TownPlotRemoveCommand extends GroupSubCommand
 {
@@ -33,7 +34,7 @@ public class TownPlotRemoveCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
+            Plot plot = PlotManager.getPlot(p.getLocation());
             Town t = plot.getTown();
             Faction f = t.getFaction();
             
@@ -67,7 +68,7 @@ public class TownPlotRemoveCommand extends GroupSubCommand
                 return null;
             default:
                 Player p = (Player) sender;
-                Plot plot = getPlugin().getPlot(p.getLocation());
+                Plot plot = PlotManager.getPlot(p.getLocation());
                 Town t = plot.getTown();
                 Faction f = t != null ? t.getFaction() : null;
                 

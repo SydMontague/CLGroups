@@ -4,6 +4,7 @@ import de.craftlancer.core.Utils;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.data.PlotDataHandler;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class PlotConfigHandler extends ConfigDataHandler implements PlotDataHandler
 {
@@ -19,13 +20,13 @@ public class PlotConfigHandler extends ConfigDataHandler implements PlotDataHand
     public void load()
     {
         for (String s : getConfig().getKeys(false))
-            getPlugin().addPlot(Utils.parsePointString(s), new Plot(getPlugin(), s, getConfig()));
+            PlotManager.addPlot(Utils.parsePointString(s), new Plot(s, getConfig()));
     }
     
     @Override
     public void save()
     {
-        for (Plot f : getPlugin().getPlots())
+        for (Plot f : PlotManager.getPlots())
             f.save(getConfig());
         
         saveConfig();

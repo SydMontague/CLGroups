@@ -8,6 +8,7 @@ import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 import de.craftlancer.groups.questions.QuestionListener;
 import de.craftlancer.groups.questions.TownDisbandQuestion;
 
@@ -26,7 +27,7 @@ public class TownDisbandCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Town town = gp.getTown();
             if (town == null)
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);

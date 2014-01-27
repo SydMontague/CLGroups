@@ -7,6 +7,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class TownLeaveCommand extends GroupSubCommand
 {
@@ -23,7 +24,7 @@ public class TownLeaveCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
         else
         {
-            Town town = getPlugin().getGroupPlayer(sender.getName()).getTown();
+            Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
             
             if (town == null)
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);

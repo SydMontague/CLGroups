@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class ReCommand implements CommandExecutor
 {
@@ -29,8 +30,8 @@ public class ReCommand implements CommandExecutor
             sender.sendMessage(GroupLanguage.COMMAND_CHAT_NOPARTNER);
         else
         {
-            ChatColor color = sender instanceof Player ? plugin.getGroupPlayer(sender.getName()).getFaction() != null ? plugin.getGroupPlayer(sender.getName()).getFaction().getColor() : ChatColor.WHITE : ChatColor.WHITE;
-            String ptag = sender instanceof Player ? plugin.getGroupPlayer(sender.getName()).getFaction() != null ? plugin.getGroupPlayer(sender.getName()).getFaction().getFormattedTag() : "" : "";
+            ChatColor color = sender instanceof Player ? PlayerManager.getGroupPlayer(sender.getName()).getFaction() != null ? PlayerManager.getGroupPlayer(sender.getName()).getFaction().getColor() : ChatColor.WHITE : ChatColor.WHITE;
+            String ptag = sender instanceof Player ? PlayerManager.getGroupPlayer(sender.getName()).getFaction() != null ? PlayerManager.getGroupPlayer(sender.getName()).getFaction().getFormattedTag() : "" : "";
             
             String last = plugin.getChatManager().getLastChatPartner(sender.getName());
             CommandSender target = last.equalsIgnoreCase("Console") ? plugin.getServer().getConsoleSender() : plugin.getServer().getPlayer(last);

@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Town;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class TownInviteQuestion extends Question
 {
@@ -21,7 +22,7 @@ public class TownInviteQuestion extends Question
     @Override
     public void execute()
     {
-        if(getPlugin().getGroupPlayer(player).getTown() != null)
+        if(PlayerManager.getGroupPlayer(player).getTown() != null)
         {
             for(CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_TOWN_INVITE_INTOWNP);

@@ -8,6 +8,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import de.craftlancer.core.Utils;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.PlotManager;
+import de.craftlancer.groups.managers.TownManager;
 
 /*
  * plots:
@@ -26,7 +29,6 @@ public class Plot
 {
     private final Point position;
     private String world;
-    private CLGroups plugin;
     private List<String> players = new LinkedList<String>();
     private List<Group> groups = new LinkedList<Group>();
     private Town town = null;
@@ -35,24 +37,22 @@ public class Plot
     // private int price = 0;
     private String flag = "default";
     
-    public Plot(Point position, String world, CLGroups plugin)
+    public Plot(Point position, String world)
     {
         this.position = position;
         this.world = world;
-        this.plugin = plugin;
     }
     
-    public Plot(CLGroups plugin, String posi, FileConfiguration config)
+    public Plot(String posi, FileConfiguration config)
     {
-        this.plugin = plugin;
         position = Utils.parsePointString(posi);
         world = Utils.parsePointWorld(posi);
         
-        owner = plugin.getGroupPlayer(config.getString(posi + ".owner"));
+        owner = PlayerManager.getGroupPlayer(config.getString(posi + ".owner"));
         if (owner != null)
             owner.addPlot(this);
         
-        town = plugin.getTown(config.getString(posi + ".town"));
+        town = TownManager.getTown(config.getString(posi + ".town"));
         if (town != null)
             town.addPlot(this);
         
@@ -106,7 +106,7 @@ public class Plot
             owner.removePlot(this);
         if (p != null)
         {
-            owner = plugin.getGroupPlayer(p);
+            owner = PlayerManager.getGroupPlayer(p);
             owner.addPlot(this);
         }
         else
@@ -251,7 +251,7 @@ public class Plot
     
     public Plot getRelative(int x, int y)
     {
-        return plugin.getPlot(getPosition().x + x, getPosition().y + y, getWorld());
+        return PlotManager.getPlot(getPosition().x + x, getPosition().y + y, getWorld());
     }
     
     public String getWorld()

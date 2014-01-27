@@ -15,6 +15,8 @@ import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Repuable;
 import de.craftlancer.groups.Reputation;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionShowrepCommand extends GroupSubCommand
 {
@@ -31,7 +33,7 @@ public class FactionShowrepCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Repuable rep;
             StringBuilder str = new StringBuilder();
             for (int i = 1; i < args.length; i++)
@@ -42,16 +44,16 @@ public class FactionShowrepCommand extends GroupSubCommand
             
             if (args.length >= 2)
                 if (name.startsWith("p:"))
-                    rep = getPlugin().getGroupPlayer(name.substring(2));
+                    rep = PlayerManager.getGroupPlayer(name.substring(2));
                 else if (name.startsWith("f:"))
-                    rep = getPlugin().getFaction(name.substring(2));
+                    rep = FactionManager.getFaction(name.substring(2));
                 else
-                    rep = getPlugin().hasFaction(name) ? getPlugin().getFaction(name) : getPlugin().getGroupPlayer(name);
+                    rep = FactionManager.hasFaction(name) ? FactionManager.getFaction(name) : PlayerManager.getGroupPlayer(name);
             else
                 rep = gp;
             
             sender.sendMessage(String.format(GroupLanguage.COMMAND_FACTION_SHOWREP_HEADER, rep.getName()));
-            for (Faction ff : getPlugin().getFactions())
+            for (Faction ff : FactionManager.getFactions())
             {
                 if (rep instanceof Faction && ff.getName().equals(rep.getName()))
                     continue;
@@ -79,7 +81,7 @@ public class FactionShowrepCommand extends GroupSubCommand
                 for (Player op : getPlugin().getServer().getOnlinePlayers())
                     if (op.getName().startsWith(args[1]))
                         tmp.add(op.getName());
-                tmp.addAll(Utils.getMatches(args[1], getPlugin().getFactionNames()));
+                tmp.addAll(Utils.getMatches(args[1], FactionManager.getFactionNames()));
                 return tmp;
             default:
                 return null;

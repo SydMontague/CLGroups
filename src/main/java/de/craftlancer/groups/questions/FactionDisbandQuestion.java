@@ -19,7 +19,7 @@ public class FactionDisbandQuestion extends Question
     @Override
     public void execute()
     {
-        getPlugin().disbandFaction(faction);
+        faction.disband();
         for (CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_FACTION_DISBAND_SUCCESS);
         getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.QUESTION_FACTION_DISBAND_BROADCAST, faction.getName()));

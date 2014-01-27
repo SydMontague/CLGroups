@@ -26,16 +26,16 @@ public class TownAdminCommand extends SubCommandHandler
     public TownAdminCommand(String permission, CLPlugin plugin)
     {
         super(permission, plugin, true);
-        registerSubCommand("help", new TownAdminHelpCommand("clgroups.commands.town.admin.help", plugin));
-        registerSubCommand("disband", new TownAdminDisbandCommand("clgroups.commands.town.admin.disband", plugin));
-        registerSubCommand("rename", new TownAdminRenameCommand("clgroups.commands.town.admin.rename", plugin));
-        registerSubCommand("kick", new TownAdminKickCommand("clgroups.commands.town.admin.kick", plugin));
-        registerSubCommand("welcome", new TownAdminWelcomeCommand("clgroups.commands.town.admin.welcome", plugin));
-        registerSubCommand("farewell", new TownAdminFarewellCommand("clgroups.commands.town.admin.farewell", plugin));
-        registerSubCommand("login", new TownAdminLoginCommand("clgroups.commands.town.admin.login", plugin));
-        registerSubCommand("unclaim", new TownAdminUnclaimCommand("clgroups.commands.town.admin.unclaim", plugin));
-        registerSubCommand("group", new TownAdminGroupCommand("clgroups.commands.town.admin.group", plugin));
-        // TODO Auto-generated constructor stub
+//        registerSubCommand("help", new TownAdminHelpCommand("clgroups.commands.town.admin.help", plugin));
+//        registerSubCommand("disband", new TownAdminDisbandCommand("clgroups.commands.town.admin.disband", plugin));
+//        registerSubCommand("rename", new TownAdminRenameCommand("clgroups.commands.town.admin.rename", plugin));
+//        registerSubCommand("kick", new TownAdminKickCommand("clgroups.commands.town.admin.kick", plugin));
+//        registerSubCommand("welcome", new TownAdminWelcomeCommand("clgroups.commands.town.admin.welcome", plugin));
+//        registerSubCommand("farewell", new TownAdminFarewellCommand("clgroups.commands.town.admin.farewell", plugin));
+//        registerSubCommand("login", new TownAdminLoginCommand("clgroups.commands.town.admin.login", plugin));
+//        registerSubCommand("unclaim", new TownAdminUnclaimCommand("clgroups.commands.town.admin.unclaim", plugin));
+//        registerSubCommand("group", new TownAdminGroupCommand("clgroups.commands.town.admin.group", plugin));
+//        // TODO Auto-generated constructor stub
     }
     
     @Override

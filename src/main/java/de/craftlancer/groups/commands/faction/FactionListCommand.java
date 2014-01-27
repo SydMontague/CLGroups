@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
 
 public class FactionListCommand extends GroupSubCommand
 {
@@ -25,7 +26,7 @@ public class FactionListCommand extends GroupSubCommand
         {
             sender.sendMessage(GroupLanguage.COMMAND_FACTION_LIST_HEADER);
             StringBuilder str = new StringBuilder();
-            for (String g : getPlugin().getFactionNames())
+            for (String g : FactionManager.getFactionNames())
                 str.append(g + ", ");
             if (str.length() > 2)
                 str.delete(str.length() - 2, str.length());

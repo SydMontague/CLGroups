@@ -11,6 +11,10 @@ import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
+import de.craftlancer.groups.managers.PlotManager;
+import de.craftlancer.groups.managers.TownManager;
 
 public class FactionNewCommand extends GroupSubCommand
 {
@@ -30,24 +34,24 @@ public class FactionNewCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            Plot plot = PlotManager.getPlot(p.getLocation());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             
             String fname = args[1];
             String tname = args[2];
             
             if (gp.getFaction() != null)
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_FACTION_INFACTION);
-            else if (getPlugin().checkPlotDistance(plot, p))
+            else if (PlotManager.checkPlotDistance(plot, p))
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_DISTANCE);
-            else if (getPlugin().hasTown(tname))
+            else if (TownManager.hasTown(tname))
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_TOWNEXISTS);
-            else if (getPlugin().hasFaction(fname))
+            else if (FactionManager.hasFaction(fname))
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_FACTIONEXISTS);
             else
             {
-                getPlugin().addFaction(new Faction(getPlugin(), fname, p));
-                getPlugin().addTown(new Town(getPlugin(), getPlugin().getPlot(p.getLocation()), tname, sender.getName(), getPlugin().getFaction(fname)));
+                FactionManager.addFaction(new Faction(getPlugin(), fname, p));
+                TownManager.addTown(new Town(getPlugin(), PlotManager.getPlot(p.getLocation()), tname, sender.getName(), FactionManager.getFaction(fname)));
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_SUCCESS);
                 getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.COMMAND_FACTION_NEW_BROADCAST, fname, tname));
             }

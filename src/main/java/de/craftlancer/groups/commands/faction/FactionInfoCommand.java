@@ -11,6 +11,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.Faction;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
 
 public class FactionInfoCommand extends GroupSubCommand
 {
@@ -27,16 +28,16 @@ public class FactionInfoCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
         else if (args.length < 2 && !(sender instanceof Player))
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (args.length >= 2 && !getPlugin().hasFaction(args[1]))
+        else if (args.length >= 2 && !FactionManager.hasFaction(args[1]))
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOFACTION);
         else
         {
             Faction f;
             
             if (args.length >= 2)
-                f = getPlugin().getFaction(args[1]);
+                f = FactionManager.getFaction(args[1]);
             else
-                f = getPlugin().getPlayerGroup(sender.getName());
+                f = FactionManager.getPlayerGroup(sender.getName());
             
             if (f == null)
             {
@@ -72,7 +73,7 @@ public class FactionInfoCommand extends GroupSubCommand
         switch (args.length)
         {
             case 2:
-                return Utils.getMatches(args[1], getPlugin().getFactionNames());
+                return Utils.getMatches(args[1], FactionManager.getFactionNames());
             default:
                 return null;
         }

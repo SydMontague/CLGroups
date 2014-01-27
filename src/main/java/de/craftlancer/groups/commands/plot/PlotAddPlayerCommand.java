@@ -8,6 +8,7 @@ import de.craftlancer.groups.CLGroups;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Plot;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.PlotManager;
 
 public class PlotAddPlayerCommand extends GroupSubCommand
 {
@@ -27,7 +28,7 @@ public class PlotAddPlayerCommand extends GroupSubCommand
         else
         {
             Player p = (Player) sender;
-            Plot plot = getPlugin().getPlot(p.getLocation());
+            Plot plot = PlotManager.getPlot(p.getLocation());
             
             if (!plot.isOwner(p))
                 sender.sendMessage(GroupLanguage.COMMAND_PLOT_NOTOWNER);

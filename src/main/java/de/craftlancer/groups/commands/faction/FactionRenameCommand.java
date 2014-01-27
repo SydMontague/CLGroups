@@ -8,6 +8,8 @@ import de.craftlancer.groups.Faction;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.GroupPlayer;
 import de.craftlancer.groups.commands.GroupSubCommand;
+import de.craftlancer.groups.managers.FactionManager;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class FactionRenameCommand extends GroupSubCommand
 {
@@ -26,19 +28,19 @@ public class FactionRenameCommand extends GroupSubCommand
             sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
         else
         {
-            GroupPlayer gp = getPlugin().getGroupPlayer(sender.getName());
+            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
             Faction f = gp.getFaction();
             
             if (f == null)
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
             else if (!f.hasPermission(gp.getName(), "faction.rename"))
                 sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else if (getPlugin().hasFaction(args[1]))
+            else if (FactionManager.hasFaction(args[1]))
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_RENAME_EXISTS);
             else
             {
                 getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.COMMAND_FACTION_RENAME_BROADCAST, f.getName(), args[1]));
-                getPlugin().renameFaction(f, args[1]);
+                f.rename(args[1]);
                 sender.sendMessage(GroupLanguage.COMMAND_FACTION_RENAME_SUCCESS);
             }
         }

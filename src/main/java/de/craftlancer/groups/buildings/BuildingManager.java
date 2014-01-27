@@ -24,6 +24,7 @@ import de.craftlancer.groups.ExpToBottleFeature;
 import de.craftlancer.groups.GroupLanguage;
 import de.craftlancer.groups.Town;
 import de.craftlancer.groups.TownFeature;
+import de.craftlancer.groups.managers.PlayerManager;
 
 public class BuildingManager implements Listener
 {
@@ -33,7 +34,6 @@ public class BuildingManager implements Listener
     public BuildingManager(CLGroups plugin)
     {
         this.plugin = plugin;
-        // TODO Auto-generated constructor stub
     }
     
     @EventHandler
@@ -47,7 +47,7 @@ public class BuildingManager implements Listener
         if (builder.get(e.getPlayer().getName()).checkBuilding())
         {
             Building build = builder.remove(e.getPlayer().getName());
-            Town t = plugin.getGroupPlayer(e.getPlayer().getName()).getTown();
+            Town t = PlayerManager.getGroupPlayer(e.getPlayer().getName()).getTown();
             
             if(t == null || build == null)
                 return;
