@@ -165,6 +165,7 @@ public class Plot
     
     public void reset()
     {
+        setFlag(null);
         setTown(null);
         setOwner(null);
         // setForSale(false, 0);

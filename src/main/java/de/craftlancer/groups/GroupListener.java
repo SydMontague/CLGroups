@@ -15,7 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.kitteh.tag.PlayerReceiveNameTagEvent;
+import org.kitteh.tag.AsyncPlayerReceiveNameTagEvent;
 
 import de.craftlancer.groups.managers.FactionManager;
 import de.craftlancer.groups.managers.PlayerManager;
@@ -37,6 +37,7 @@ public class GroupListener implements Listener
             add(Material.NETHER_WARTS);
             add(Material.RED_MUSHROOM);
             add(Material.BROWN_MUSHROOM);
+            add(Material.COCOA);
         }
     };
     private Set<Material> farmMapPlace = new HashSet<Material>()
@@ -61,7 +62,7 @@ public class GroupListener implements Listener
     }
     
     @EventHandler(priority = EventPriority.LOW)
-    public void onNameTag(PlayerReceiveNameTagEvent e)
+    public void onNameTag(AsyncPlayerReceiveNameTagEvent e)
     {
         if (e.getTag().equals("PumpkinBandit"))
             return;
@@ -90,7 +91,7 @@ public class GroupListener implements Listener
         if (e.getPlayer().hasPermission("clgroups.admin"))
             return;
         
-        if (farmMapBreak.contains(e.getBlock().getType()) && (plugin.getPvPTimer() == null || plugin.getPvPTimer().isProtected(e.getPlayer())))
+        if (farmMapBreak.contains(e.getBlock().getType()) && (plugin.getPvPTimer() == null || !plugin.getPvPTimer().isProtected(e.getPlayer())))
             return;
         
         Plot plot = PlotManager.getPlot(e.getBlock().getLocation());

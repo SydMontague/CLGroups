@@ -1,0 +1,14 @@
+This project is private.
+
+It is adjusted for my own purposes and may require other software that is not available to public.
+
+You are allowed to browse and fork the code and use resulting builds for your own, non commercial, purposes.
+However, no further rights (e.g. support or the right to publish or own builds) are granted.
+
+
+This plugin adds a Town/Faction system to Bukkit. It is far from being perfect and 
+there are most likely way better plugins available on dev.bukkit.org than this (e.g. Towny or Factions).
+
+It was created for the special needs of the Craftlancer.de Minecraftserver.
+
+This plugin is NOT intended to be released on dev.bukkit.org!

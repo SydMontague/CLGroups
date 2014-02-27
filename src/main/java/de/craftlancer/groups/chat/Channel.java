@@ -16,7 +16,7 @@ public class Channel
     private List<String> member = new LinkedList<String>();
     private int range;
     private boolean global;
-    private String format = "$chanTag$<$pColor$$tag$$name$§f> $chanColor$%2$s";
+    private String format = "$chanTag$$rankTag$<$pColor$$tag$$name$§f> $chanColor$%2$s";
     private ChatColor color;
     private String tag;
     private String name;
@@ -121,12 +121,14 @@ public class Channel
     public String getPlayerFormat(String p)
     {
         GroupPlayer gp = PlayerManager.getGroupPlayer(p);
+        
         String localFormat = format;
         
         ChatColor pColor = gp.getFaction() == null ? ChatColor.WHITE : gp.getFaction().getColor();
         String ptag = gp.getFaction() == null ? "" : gp.getFaction().getFormattedTag();
         
         localFormat = localFormat.replace("$chanTag$", getChanTag());
+        localFormat = localFormat.replace("$rankTag$", getRankTag(p));
         localFormat = localFormat.replace("$pColor$", pColor.toString());
         localFormat = localFormat.replace("$tag$", ptag);
         localFormat = localFormat.replace("$chanColor$", getChanColor().toString());
@@ -142,5 +144,12 @@ public class Channel
     public boolean isAllowed(String p)
     {
         return true;
+    }
+    
+    public String getRankTag(String s)
+    {
+        Player p = plugin.getServer().getPlayer(s);
+        
+        return p == null ? "" : p.hasPermission("clgroups.admin") ? "[A]" : p.hasPermission("clgroups.mod") ? "[M]" : "";
     }
 }
