@@ -31,7 +31,7 @@ public class GroupTask extends BukkitRunnable
             locMap.put(p.getName(), p.getLocation());
             
             if (from == to && f.getOwner() == t.getOwner())
-                return;
+                continue;
             
             String towner = t.getOwner() == null ? "" : " - " + t.getOwner().getName();
             String townName = to == null ? "Unbesetzt" : to.getName() + " (" + to.getFaction().getName() + ")";
