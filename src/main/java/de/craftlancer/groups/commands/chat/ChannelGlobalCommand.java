@@ -18,27 +18,25 @@ public class ChannelGlobalCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Channel chan = getPlugin().getChatManager().getActiveChannel((Player) sender);
-            getPlugin().getChatManager().joinChannel(sender.getName(), getPlugin().getChatManager().getChannel("global"));
-            
-            if (args.length == 1)
-                sender.sendMessage(GroupLanguage.COMMAND_CHAT_JOIN_GLOBAL);
-            else
-            {
-                StringBuilder str = new StringBuilder();
-                for (int i = 1; i < args.length; i++)
-                    str.append(args[i] + " ");
-                
-                ((Player) sender).chat(str.toString());
-                getPlugin().getChatManager().joinChannel((Player) sender, chan);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Channel chan = getPlugin().getChatManager().getActiveChannel((Player) sender);
+        getPlugin().getChatManager().joinChannel(sender.getName(), getPlugin().getChatManager().getChannel("global"));
+        
+        if (args.length == 1)
+            return GroupLanguage.COMMAND_CHAT_JOIN_GLOBAL;
+        
+        StringBuilder str = new StringBuilder();
+        for (int i = 1; i < args.length; i++)
+            str.append(args[i] + " ");
+        
+        ((Player) sender).chat(str.toString());
+        getPlugin().getChatManager().joinChannel((Player) sender, chan);
+        
+        return null;
     }
     
     @Override

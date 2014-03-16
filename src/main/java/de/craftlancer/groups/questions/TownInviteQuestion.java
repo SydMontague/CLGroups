@@ -22,24 +22,24 @@ public class TownInviteQuestion extends Question
     @Override
     public void execute()
     {
-        if(PlayerManager.getGroupPlayer(player).getTown() != null)
+        if (PlayerManager.getGroupPlayer(player).getTown() != null)
         {
-            for(CommandSender sender : getSender())
-            sender.sendMessage(GroupLanguage.QUESTION_TOWN_INVITE_INTOWNP);
+            for (CommandSender sender : getSender())
+                sender.sendMessage(GroupLanguage.QUESTION_TOWN_INVITE_INTOWNP);
             town.sendMessage(String.format(GroupLanguage.QUESTION_TOWN_INVITE_INTOWNT, player));
             return;
         }
         
         town.sendMessage(String.format(GroupLanguage.QUESTION_TOWN_INVITE_JOINED, player));
         town.addMember(player);
-        for(CommandSender sender : getSender())
+        for (CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_TOWN_INVITE_ACCEPTED);
     }
     
     @Override
     public void cancel()
     {
-        for(CommandSender sender : getSender())
+        for (CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_TOWN_INVITE_CANCELLED);
         town.sendMessage(player + " hat die Einladung abgelehnt.");
     }

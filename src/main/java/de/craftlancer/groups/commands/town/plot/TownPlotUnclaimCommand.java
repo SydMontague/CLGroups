@@ -20,27 +20,22 @@ public class TownPlotUnclaimCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            Town t = plot.getTown();
-            
-            if (t == null)
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN);
-            else if (!t.hasPermission(p.getName(), "town.plot.unclaim"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else
-            {
-                t.removePlot(plot);
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_UNCLAIM_SUCCESS);
-            }
-            
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        Town t = plot.getTown();
+        
+        if (t == null)
+            return GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN;
+        if (!t.hasPermission(p.getName(), "town.plot.unclaim"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        t.removePlot(plot);
+        return GroupLanguage.COMMAND_TOWN_PLOT_UNCLAIM_SUCCESS;
     }
     
     @Override

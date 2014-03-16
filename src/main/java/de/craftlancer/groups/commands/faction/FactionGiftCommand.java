@@ -27,33 +27,30 @@ public class FactionGiftCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if(args.length < 3)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = FactionManager.getFaction(args[2]);
-            Town t = TownManager.getTown(args[1]);
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOFACTION);
-            else if (t == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTOWN);
-            else if (!t.getFaction().equals(f))
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_GIFT_NOTYOURTOWN);
-            else if (t.getFaction().getTowns().size() == 1)
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_GIFT_LASTTOWN);
-            else if (!gp.getFaction().hasPermission(gp.getName(), "faction.gifttown"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else
-            {
-                QuestionListener.addQuestion(new FactionGiftLeaderQuestion(getPlugin(), sender, t, f));
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 3)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = FactionManager.getFaction(args[2]);
+        Town t = TownManager.getTown(args[1]);
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOFACTION;
+        if (t == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTOWN;
+        if (!t.getFaction().equals(f))
+            return GroupLanguage.COMMAND_FACTION_GIFT_NOTYOURTOWN;
+        if (t.getFaction().getTowns().size() == 1)
+            return GroupLanguage.COMMAND_FACTION_GIFT_LASTTOWN;
+        if (!gp.getFaction().hasPermission(gp.getName(), "faction.gifttown"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        
+        QuestionListener.addQuestion(new FactionGiftLeaderQuestion(getPlugin(), sender, t, f));
+        return null;
     }
     
     @Override

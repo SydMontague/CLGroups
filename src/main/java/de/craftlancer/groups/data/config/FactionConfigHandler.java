@@ -36,7 +36,7 @@ public class FactionConfigHandler extends ConfigDataHandler implements FactionDa
     {
         getConfig().set(f.getConfigKey(), null);
     }
-
+    
     public static FactionConfigHandler getInstance()
     {
         if (instance == null)

@@ -22,33 +22,29 @@ public class TownGroupRemoveCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 4)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
-            
-            if (town == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (!town.hasGroup(args[2]))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_NOSUCHGROUP);
-            else if (!town.hasPermission(sender.getName(), "town.group.remove"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (args[2].equals("mayors") || args[2].equals("members"))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_PROTECTED);
-            else
-            {
-                Group g = town.getGroup(args[2]);
-                for (int i = 3; i < args.length; i++)
-                    g.removePlayer(args[i]);
-                
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_REMOVE_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 4)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
+        
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (!town.hasGroup(args[2]))
+            return GroupLanguage.COMMAND_GROUP_NOSUCHGROUP;
+        if (!town.hasPermission(sender.getName(), "town.group.remove"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        if (args[2].equals("mayors") || args[2].equals("members"))
+            return GroupLanguage.COMMAND_GROUP_PROTECTED;
+        
+        Group g = town.getGroup(args[2]);
+        for (int i = 3; i < args.length; i++)
+            g.removePlayer(args[i]);
+        
+        return GroupLanguage.COMMAND_GROUP_REMOVE_SUCCESS;
     }
     
     @Override

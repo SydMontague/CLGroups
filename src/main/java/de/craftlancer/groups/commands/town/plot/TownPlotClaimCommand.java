@@ -21,33 +21,28 @@ public class TownPlotClaimCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            Town t = PlayerManager.getGroupPlayer(p.getName()).getTown();
-            
-            if (t == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (plot.getOwner() != null || plot.getTown() != null)
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_OWNED);
-            else if (!plot.isNextToTown(t))
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_NOTNEXTTOWN);
-            else if (!t.hasPermission(p.getName(), "town.plot.claim"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (!PlotManager.checkPlotLimit(t))
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_LIMIT);
-            else
-            {
-                t.addPlot(plot);
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_SUCCESS);
-            }
-            
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        Town t = PlayerManager.getGroupPlayer(p.getName()).getTown();
+        
+        if (t == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (plot.getOwner() != null || plot.getTown() != null)
+            return GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_OWNED;
+        if (!plot.isNextToTown(t))
+            return GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_NOTNEXTTOWN;
+        if (!t.hasPermission(p.getName(), "town.plot.claim"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        if (!PlotManager.checkPlotLimit(t))
+            return GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_LIMIT;
+        
+        t.addPlot(plot);
+        return GroupLanguage.COMMAND_TOWN_PLOT_CLAIM_SUCCESS;
     }
     
     @Override

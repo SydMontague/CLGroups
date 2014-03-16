@@ -19,32 +19,29 @@ public class FactionGroupListCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (!f.hasPermission(sender.getName(), "faction.group.list"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else
-            {
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_LIST_HEADER);
-                StringBuilder str = new StringBuilder();
-                for (String g : f.getGroupNames())
-                    str.append(g + ", ");
-                if (str.length() > 2)
-                    str.delete(str.length() - 2, str.length());
-                sender.sendMessage(str.toString());
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (!f.hasPermission(sender.getName(), "faction.group.list"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        
+        sender.sendMessage(GroupLanguage.COMMAND_GROUP_LIST_HEADER);
+        StringBuilder str = new StringBuilder();
+        for (String g : f.getGroupNames())
+            str.append(g + ", ");
+        if (str.length() > 2)
+            str.delete(str.length() - 2, str.length());
+        
+        return str.toString();
     }
     
     @Override

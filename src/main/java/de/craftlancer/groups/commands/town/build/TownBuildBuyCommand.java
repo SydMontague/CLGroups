@@ -16,10 +16,10 @@ public class TownBuildBuyCommand extends SubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         // TODO Auto-generated method stub
-        
+        return null;
     }
     
     @Override

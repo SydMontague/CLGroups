@@ -36,7 +36,7 @@ public class ReCommand implements CommandExecutor
             String last = plugin.getChatManager().getLastChatPartner(sender.getName());
             CommandSender target = last.equalsIgnoreCase("Console") ? plugin.getServer().getConsoleSender() : plugin.getServer().getPlayer(last);
             
-            if(target == null)
+            if (target == null)
             {
                 sender.sendMessage(GroupLanguage.COMMAND_CHAT_NOPARTNER);
                 return true;

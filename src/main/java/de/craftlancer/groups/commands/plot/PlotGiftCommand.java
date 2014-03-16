@@ -20,32 +20,29 @@ public class PlotGiftCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (!getPlugin().getServer().getOfflinePlayer(args[1]).hasPlayedBefore())
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOPLAYER);
-        else
-        {
-            Player p = (Player) sender;
-            OfflinePlayer p2 = getPlugin().getServer().getOfflinePlayer(args[1]);
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            
-            if (!plot.isOwner(p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_NOTOWNER);
-            else if (!PlotManager.checkPlotLimit(p2.getName()))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_GIFT_LIMIT);
-            else
-            {
-                plot.setOwner(p2.getName());
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_GIFT_SUCCESS);
-                if (p2.isOnline())
-                    p2.getPlayer().sendMessage(String.format(GroupLanguage.COMMAND_PLOT_GIFT_GIFTED, plot.getPosiString(), sender.getName()));
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        if (!getPlugin().getServer().getOfflinePlayer(args[1]).hasPlayedBefore())
+            return GroupLanguage.COMMAND_GENERAL_NOPLAYER;
+        
+        Player p = (Player) sender;
+        OfflinePlayer p2 = getPlugin().getServer().getOfflinePlayer(args[1]);
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        
+        if (!plot.isOwner(p))
+            return GroupLanguage.COMMAND_PLOT_NOTOWNER;
+        if (!PlotManager.checkPlotLimit(p2.getName()))
+            return GroupLanguage.COMMAND_PLOT_GIFT_LIMIT;
+        
+        plot.setOwner(p2.getName());
+        if (p2.isOnline())
+            p2.getPlayer().sendMessage(String.format(GroupLanguage.COMMAND_PLOT_GIFT_GIFTED, plot.getPosiString(), sender.getName()));
+        
+        return GroupLanguage.COMMAND_PLOT_GIFT_SUCCESS;
     }
     
     @Override

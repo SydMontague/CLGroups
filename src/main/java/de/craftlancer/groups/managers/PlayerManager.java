@@ -13,7 +13,7 @@ public class PlayerManager
     
     public static PlayerManager getInstance()
     {
-        if(instance == null)
+        if (instance == null)
             instance = new PlayerManager();
         
         return instance;

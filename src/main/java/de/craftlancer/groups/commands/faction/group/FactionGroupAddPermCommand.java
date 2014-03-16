@@ -25,35 +25,31 @@ public class FactionGroupAddPermCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 4)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (!f.hasGroup(args[2]))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_NOSUCHGROUP);
-            else if (!f.hasPermission(sender.getName(), "faction.group.addperm"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else if (args[2].equals("leaders"))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_PROTECTED);
-            else
-            {
-                Group g = f.getGroup(args[2]);
-                for (int i = 3; i < args.length; i++)
-                    if (f.hasPermission(sender.getName(), args[i]))
-                        g.addPermission(args[i]);
-                
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_ADDPERM_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 4)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (!f.hasGroup(args[2]))
+            return GroupLanguage.COMMAND_GROUP_NOSUCHGROUP;
+        if (!f.hasPermission(sender.getName(), "faction.group.addperm"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        if (args[2].equals("leaders"))
+            return GroupLanguage.COMMAND_GROUP_PROTECTED;
+        
+        Group g = f.getGroup(args[2]);
+        for (int i = 3; i < args.length; i++)
+            if (f.hasPermission(sender.getName(), args[i]))
+                g.addPermission(args[i]);
+        
+        return GroupLanguage.COMMAND_GROUP_ADDPERM_SUCCESS;
     }
     
     @Override

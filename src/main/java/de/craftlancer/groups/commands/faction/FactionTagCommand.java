@@ -20,29 +20,25 @@ public class FactionTagCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (!f.hasPermission(gp.getName(), "faction.tag"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else if (FactionManager.isTagTaken(args[1]))
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_TAG_TAKEN);
-            else
-            {
-                f.setTag(args[1]);
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_TAG_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (!f.hasPermission(gp.getName(), "faction.tag"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        if (FactionManager.isTagTaken(args[1]))
+            return GroupLanguage.COMMAND_FACTION_TAG_TAKEN;
+        
+        f.setTag(args[1]);
+        return GroupLanguage.COMMAND_FACTION_TAG_SUCCESS;
     }
     
     @Override

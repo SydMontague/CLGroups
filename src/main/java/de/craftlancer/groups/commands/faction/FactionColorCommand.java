@@ -48,32 +48,28 @@ public class FactionColorCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            ChatColor color = colorMap.get(args[1].toUpperCase());
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (color == null)
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_COLOR_NOTACOLOR);
-            else if (!f.hasPermission(gp.getName(), "faction.color"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else if (FactionManager.isColorTaken(color))
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_COLOR_TAKEN);
-            else
-            {
-                f.setColor(color);
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_COLOR_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        ChatColor color = colorMap.get(args[1].toUpperCase());
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (color == null)
+            return GroupLanguage.COMMAND_FACTION_COLOR_NOTACOLOR;
+        if (!f.hasPermission(gp.getName(), "faction.color"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        if (FactionManager.isColorTaken(color))
+            return GroupLanguage.COMMAND_FACTION_COLOR_TAKEN;
+        
+        f.setColor(color);
+        return GroupLanguage.COMMAND_FACTION_COLOR_SUCCESS;
     }
     
     @Override

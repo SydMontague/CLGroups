@@ -19,7 +19,7 @@ public abstract class TownFeature implements Listener
     {
         this.plugin = plugin;
         this.key = key;
-        //TODO costs
+        // TODO costs
         this.name = config.getString(getKey() + ".name");
         this.buildable = config.getBoolean(getKey() + ".buildable", false);
         
@@ -29,7 +29,7 @@ public abstract class TownFeature implements Listener
     }
     
     public abstract FeatureType getType();
-
+    
     public CLGroups getPlugin()
     {
         return plugin;

@@ -12,7 +12,7 @@ import de.craftlancer.groups.commands.town.build.TownBuildUpgradeCommand;
 
 public class TownBuildCommand extends SubCommandHandler
 {
-
+    
     public TownBuildCommand(String permission, CLGroups plugin)
     {
         super(permission, plugin, false);
@@ -23,7 +23,7 @@ public class TownBuildCommand extends SubCommandHandler
         registerSubCommand("list", new TownBuildListCommand("clgroups.commands.town.build.list", plugin));
         // TODO Auto-generated constructor stub
     }
-
+    
     @Override
     public void help(CommandSender sender)
     {

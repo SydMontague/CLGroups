@@ -25,37 +25,34 @@ public class FactionNewCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 3)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            
-            String fname = args[1];
-            String tname = args[2];
-            
-            if (gp.getFaction() != null)
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_FACTION_INFACTION);
-            else if (PlotManager.checkPlotDistance(plot, p))
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_DISTANCE);
-            else if (TownManager.hasTown(tname))
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_TOWNEXISTS);
-            else if (FactionManager.hasFaction(fname))
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_FACTIONEXISTS);
-            else
-            {
-                FactionManager.addFaction(new Faction(getPlugin(), fname, p));
-                TownManager.addTown(new Town(getPlugin(), PlotManager.getPlot(p.getLocation()), tname, sender.getName(), FactionManager.getFaction(fname)));
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_NEW_SUCCESS);
-                getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.COMMAND_FACTION_NEW_BROADCAST, fname, tname));
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 3)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        
+        String fname = args[1];
+        String tname = args[2];
+        
+        if (gp.getFaction() != null)
+            return GroupLanguage.COMMAND_FACTION_NEW_FACTION_INFACTION;
+        if (PlotManager.checkPlotDistance(plot, p))
+            return GroupLanguage.COMMAND_FACTION_NEW_DISTANCE;
+        if (TownManager.hasTown(tname))
+            return GroupLanguage.COMMAND_FACTION_NEW_TOWNEXISTS;
+        if (FactionManager.hasFaction(fname))
+            return GroupLanguage.COMMAND_FACTION_NEW_FACTIONEXISTS;
+        
+        FactionManager.addFaction(new Faction(getPlugin(), fname, p));
+        TownManager.addTown(new Town(getPlugin(), PlotManager.getPlot(p.getLocation()), tname, sender.getName(), FactionManager.getFaction(fname)));
+        getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.COMMAND_FACTION_NEW_BROADCAST, fname, tname));
+        return GroupLanguage.COMMAND_FACTION_NEW_SUCCESS;
+        
     }
     
     @Override

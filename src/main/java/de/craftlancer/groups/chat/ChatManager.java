@@ -11,7 +11,7 @@ import de.craftlancer.groups.CLGroups;
 public class ChatManager
 {
     private static int DEF_RANGE = 100;
-
+    
     private Map<String, String> lastPartner = new HashMap<String, String>();
     private Map<String, Channel> pToChan = new HashMap<String, Channel>();
     private Map<String, Channel> channels = new HashMap<String, Channel>();

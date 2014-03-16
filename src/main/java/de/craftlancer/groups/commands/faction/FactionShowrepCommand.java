@@ -27,48 +27,46 @@ public class FactionShowrepCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(checkSender(sender)))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Repuable rep;
-            StringBuilder str = new StringBuilder();
-            for (int i = 1; i < args.length; i++)
-                str.append(args[i] + " ");
-            if (str.length() > 1)
-                str.delete(str.length() - 1, str.length());
-            String name = str.toString();
-            
-            if (args.length >= 2)
-                if (name.startsWith("p:"))
-                    rep = PlayerManager.getGroupPlayer(name.substring(2));
-                else if (name.startsWith("f:"))
-                    rep = FactionManager.getFaction(name.substring(2));
-                else
-                    rep = FactionManager.hasFaction(name) ? FactionManager.getFaction(name) : PlayerManager.getGroupPlayer(name);
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Repuable rep;
+        StringBuilder str = new StringBuilder();
+        for (int i = 1; i < args.length; i++)
+            str.append(args[i] + " ");
+        if (str.length() > 1)
+            str.delete(str.length() - 1, str.length());
+        String name = str.toString();
+        
+        if (args.length >= 2)
+            if (name.startsWith("p:"))
+                rep = PlayerManager.getGroupPlayer(name.substring(2));
+            else if (name.startsWith("f:"))
+                rep = FactionManager.getFaction(name.substring(2));
             else
-                rep = gp;
+                rep = FactionManager.hasFaction(name) ? FactionManager.getFaction(name) : PlayerManager.getGroupPlayer(name);
+        else
+            rep = gp;
+        
+        sender.sendMessage(String.format(GroupLanguage.COMMAND_FACTION_SHOWREP_HEADER, rep.getName()));
+        for (Faction ff : FactionManager.getFactions())
+        {
+            if (rep instanceof Faction && ff.getName().equals(rep.getName()))
+                continue;
             
-            sender.sendMessage(String.format(GroupLanguage.COMMAND_FACTION_SHOWREP_HEADER, rep.getName()));
-            for (Faction ff : FactionManager.getFactions())
-            {
-                if (rep instanceof Faction && ff.getName().equals(rep.getName()))
-                    continue;
-                
-                Faction f2 = rep instanceof Faction ? (Faction) rep : ((GroupPlayer) rep).getFaction();
-                
-                Reputation rep1 = ff.getReputation(f2);
-                Reputation rep2 = f2 != null ? f2.getReputation(ff) : Reputation.UNDEFINED;
-                
-                Reputation repu = rep1.getLowest(rep2);
-                
-                sender.sendMessage(String.format(GroupLanguage.COMMAND_FACTION_SHOWREP_CONTENT, rep.getName(), ff.getName(), repu.toString()));
-            }
+            Faction f2 = rep instanceof Faction ? (Faction) rep : ((GroupPlayer) rep).getFaction();
             
+            Reputation rep1 = ff.getReputation(f2);
+            Reputation rep2 = f2 != null ? f2.getReputation(ff) : Reputation.UNDEFINED;
+            
+            Reputation repu = rep1.getLowest(rep2);
+            
+            sender.sendMessage(String.format(GroupLanguage.COMMAND_FACTION_SHOWREP_CONTENT, rep.getName(), ff.getName(), repu.toString()));
         }
+        return null;
     }
     
     @Override

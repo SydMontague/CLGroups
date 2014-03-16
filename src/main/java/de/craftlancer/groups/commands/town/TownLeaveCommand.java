@@ -18,25 +18,21 @@ public class TownLeaveCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
-            
-            if (town == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (town.getMayors().size() == 1 && town.getMayors().contains(sender.getName()))
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_LEAVE_LASTMAYOR);
-            else
-            {
-                town.removeMember(sender.getName());
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_LEAVE_SUCCESS);
-                town.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_LEAVE_LEFT, sender.getName()));
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
+        
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (town.getMayors().size() == 1 && town.getMayors().contains(sender.getName()))
+            return GroupLanguage.COMMAND_TOWN_LEAVE_LASTMAYOR;
+        
+        town.removeMember(sender.getName());
+        town.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_LEAVE_LEFT, sender.getName()));
+        return GroupLanguage.COMMAND_TOWN_LEAVE_SUCCESS;
     }
     
     @Override

@@ -48,6 +48,7 @@ public abstract class GroupHolder
                 addGroup(s, new Group(plugin, s, this, pList, mList));
             }
     }
+    
     public String getConfigKey()
     {
         return configKey;

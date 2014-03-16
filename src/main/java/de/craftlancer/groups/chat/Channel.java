@@ -20,7 +20,7 @@ public class Channel
     private ChatColor color;
     private String tag;
     private String name;
-
+    
     public Channel(String name, int range, boolean global, ChatColor color, String tag, CLGroups plugin)
     {
         this.name = name;
@@ -43,7 +43,8 @@ public class Channel
     }
     
     /**
-     * Get whether this channel is global and can be read from all worlds, or not.
+     * Get whether this channel is global and can be read from all worlds, or
+     * not.
      * If true {@link #getRange()} is ignored.
      * 
      * @return true if this channel can be read in all worlds
@@ -57,7 +58,7 @@ public class Channel
     {
         return name;
     }
-
+    
     public List<String> getMembers()
     {
         return member;
@@ -77,7 +78,7 @@ public class Channel
     {
         removeMember(p.getName());
     }
-
+    
     private void removeMember(String p)
     {
         member.remove(p);
@@ -102,7 +103,7 @@ public class Channel
     {
         return tag;
     }
-
+    
     public String getFormat()
     {
         return format;
@@ -136,11 +137,13 @@ public class Channel
         return localFormat;
     }
     
+    @SuppressWarnings("unused")
     public boolean isAllowed(Player p)
     {
         return true;
     }
     
+    @SuppressWarnings("unused")
     public boolean isAllowed(String p)
     {
         return true;

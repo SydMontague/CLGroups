@@ -24,11 +24,11 @@ public class FactionGiftMayorQuestion extends Question
         this.faction = faction;
         this.subs = subs;
     }
-
+    
     @Override
     public void ask()
     {
-        for(CommandSender sender : getSender())
+        for (CommandSender sender : getSender())
             sender.sendMessage(String.format(GroupLanguage.QUESTION_FACTION_GIFT_MAYOR_QUESTION, town.getName(), faction.getName()));
     }
     
@@ -46,17 +46,17 @@ public class FactionGiftMayorQuestion extends Question
                 senderSet.add(p.getPlayer());
         }
         
-        for(CommandSender sender : getSender())
-            sender.sendMessage(GroupLanguage.QUESTION_FACTION_GIFT_MAYOR_NEXT);        
+        for (CommandSender sender : getSender())
+            sender.sendMessage(GroupLanguage.QUESTION_FACTION_GIFT_MAYOR_NEXT);
         QuestionListener.addQuestion(new FactionGiftOtherQuestion(senderSet, town, faction, getSender(), subs));
     }
     
     @Override
     public void cancel()
     {
-        for(CommandSender sender : getSender())
+        for (CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_FACTION_GIFT_MAYOR_CANCELLED);
-        for(CommandSender sender : subs)
+        for (CommandSender sender : subs)
             sender.sendMessage(GroupLanguage.QUESTION_FACTION_GIFT_MAYOR_CANCELLED_LEADER);
     }
     

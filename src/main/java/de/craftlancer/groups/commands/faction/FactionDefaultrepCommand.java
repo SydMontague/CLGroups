@@ -22,30 +22,26 @@ public class FactionDefaultrepCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (!Reputation.getNames().contains(args[1].toUpperCase()))
-            sender.sendMessage(GroupLanguage.COMMAND_FACTION_NOTAREPU);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            Reputation repu = Reputation.valueOf(args[1].toUpperCase());
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (!f.hasPermission(sender.getName(), "faction.defaultrep"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else
-            {
-                f.setDefaultRepu(repu);
-                sender.sendMessage(GroupLanguage.COMMAND_FACTION_DEFAULTREP_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        if (!Reputation.getNames().contains(args[1].toUpperCase()))
+            return GroupLanguage.COMMAND_FACTION_NOTAREPU;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        Reputation repu = Reputation.valueOf(args[1].toUpperCase());
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (!f.hasPermission(sender.getName(), "faction.defaultrep"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        
+        f.setDefaultRepu(repu);
+        return GroupLanguage.COMMAND_FACTION_DEFAULTREP_SUCCESS;
     }
     
     @Override

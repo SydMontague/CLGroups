@@ -20,25 +20,21 @@ public class TownPlotUnsaleCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            
-            if (plot.getTown() == null || plot.getOwner() != null)
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN);
-            else if (!plot.getTown().hasPermission(p.getName(), "town.plot.unsale"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else
-            {
-                //plot.setForSale(false, 0);
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_UNSALE_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        
+        if (plot.getTown() == null || plot.getOwner() != null)
+            return GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN;
+        if (!plot.getTown().hasPermission(p.getName(), "town.plot.unsale"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        // plot.setForSale(false, 0);
+        return GroupLanguage.COMMAND_TOWN_PLOT_UNSALE_SUCCESS;
     }
     
     @Override

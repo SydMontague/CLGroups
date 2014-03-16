@@ -310,10 +310,10 @@ public class Faction extends GroupHolder implements Repuable
     {
         return getGroup("leaders").getMember();
     }
-
+    
     public void updateRepu(String oldName, String newName)
     {
-        if(groupRepu.containsKey(oldName))
+        if (groupRepu.containsKey(oldName))
         {
             groupRepu.put(newName, groupRepu.get(oldName));
             groupRepu.remove(oldName);

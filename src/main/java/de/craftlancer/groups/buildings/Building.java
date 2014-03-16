@@ -57,11 +57,11 @@ public abstract class Building implements Listener
     public abstract FeatureType getType();
     
     public abstract void save();
-
+    
     public abstract int getBuildBlockNumber();
-
+    
     public abstract ItemStack[] getBuildBlocks();
-
+    
     public void setTown(Town town)
     {
         this.town = town;
@@ -71,32 +71,32 @@ public abstract class Building implements Listener
     {
         return town;
     }
-
+    
     public String getPermission()
     {
         return permission;
     }
-
+    
     public void setPermission(String permission)
     {
         this.permission = permission;
     }
-
+    
     public String getFreePermission()
     {
         return freePermission;
     }
-
+    
     public void setFreePermission(String freePermission)
     {
         this.freePermission = freePermission;
     }
-
+    
     public int getCosts()
     {
         return costs;
     }
-
+    
     public void setCosts(int costs)
     {
         this.costs = costs;

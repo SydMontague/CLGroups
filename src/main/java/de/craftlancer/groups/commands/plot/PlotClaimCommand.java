@@ -19,30 +19,25 @@ public class PlotClaimCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            
-            if (!plot.isBuyable())
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_NOTFORSALE);
-            else if (!plot.isTownPlot() && PlotManager.checkPlotDistance(plot, p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_TOOCLOSE);
-            else if (plot.isTownPlot() && !plot.getTown().hasPermission(p.getName(), "town.buy"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (PlotManager.checkPlotLimit(p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_LIMIT);
-            else
-            {
-                plot.setOwner(p.getName());
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_CLAIM_SUCCESS);
-            }
-            
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        
+        if (!plot.isBuyable())
+            return GroupLanguage.COMMAND_PLOT_CLAIM_NOTFORSALE;
+        if (!plot.isTownPlot() && PlotManager.checkPlotDistance(plot, p))
+            return GroupLanguage.COMMAND_PLOT_CLAIM_TOOCLOSE;
+        if (plot.isTownPlot() && !plot.getTown().hasPermission(p.getName(), "town.buy"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        if (PlotManager.checkPlotLimit(p))
+            return GroupLanguage.COMMAND_PLOT_CLAIM_LIMIT;
+        
+        plot.setOwner(p.getName());
+        return GroupLanguage.COMMAND_PLOT_CLAIM_SUCCESS;
     }
     
     @Override

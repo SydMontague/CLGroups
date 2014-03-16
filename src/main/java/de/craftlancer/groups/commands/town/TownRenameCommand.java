@@ -18,32 +18,28 @@ public class TownRenameCommand extends GroupSubCommand
     {
         super(permission, plugin, false);
     }
-
+    
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Town town = gp.getTown();
-                        
-            if (town == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (!town.hasPermission(gp.getName(), "town.rename"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (TownManager.hasTown(args[1]))
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_RENAME_EXISTS);
-            else
-            {
-                getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.COMMAND_TOWN_RENAME_BROADCAST, town.getName(), args[1]));
-                town.rename(args[1]);
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_RENAME_SUCCESS);
-            }
-        }
+        if (!checkSender(sender))
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Town town = gp.getTown();
+        
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (!town.hasPermission(gp.getName(), "town.rename"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        if (TownManager.hasTown(args[1]))
+            return GroupLanguage.COMMAND_TOWN_RENAME_EXISTS;
+        
+        getPlugin().getServer().broadcastMessage(String.format(GroupLanguage.COMMAND_TOWN_RENAME_BROADCAST, town.getName(), args[1]));
+        town.rename(args[1]);
+        return GroupLanguage.COMMAND_TOWN_RENAME_SUCCESS;
     }
     
     @Override

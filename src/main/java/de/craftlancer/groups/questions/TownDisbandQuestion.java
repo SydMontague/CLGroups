@@ -21,7 +21,7 @@ public class TownDisbandQuestion extends Question
     public void execute()
     {
         town.disband();
-        for(CommandSender sender : getSender())
+        for (CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_TOWN_DISBAND_SUCCESS);
         Bukkit.broadcastMessage(String.format(GroupLanguage.QUESTION_TOWN_DISBAND_BROADCAST, town.getName()));
     }
@@ -29,15 +29,15 @@ public class TownDisbandQuestion extends Question
     @Override
     public void cancel()
     {
-        for(CommandSender sender : getSender())
+        for (CommandSender sender : getSender())
             sender.sendMessage(GroupLanguage.QUESTION_TOWN_DISBAND_CANCELLED);
     }
-
+    
     @Override
     public void ask()
     {
-        for(CommandSender sender : getSender())
-        sender.sendMessage(GroupLanguage.QUESTION_TOWN_DISBAND_QUESTION);
+        for (CommandSender sender : getSender())
+            sender.sendMessage(GroupLanguage.QUESTION_TOWN_DISBAND_QUESTION);
     }
     
 }

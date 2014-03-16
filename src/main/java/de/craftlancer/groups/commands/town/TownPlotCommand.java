@@ -27,8 +27,10 @@ public class TownPlotCommand extends SubCommandHandler
         registerSubCommand("add", new TownPlotAddCommand("clgroups.commands.town.plot.add", plugin));
         registerSubCommand("remove", new TownPlotRemoveCommand("clgroups.commands.town.plot.remove", plugin));
         registerSubCommand("assign", new TownPlotAssignCommand("clgroups.commands.town.plot.assign", plugin));
-        //registerSubCommand("sale", new TownPlotSaleCommand("clgroups.commands.town.plot.sale", plugin));
-        //registerSubCommand("unsale", new TownPlotUnsaleCommand("clgroups.commands.town.plot.unsale", plugin));
+        // registerSubCommand("sale", new
+        // TownPlotSaleCommand("clgroups.commands.town.plot.sale", plugin));
+        // registerSubCommand("unsale", new
+        // TownPlotUnsaleCommand("clgroups.commands.town.plot.unsale", plugin));
     }
     
     @Override

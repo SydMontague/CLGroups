@@ -21,26 +21,22 @@ public class TownDisbandCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Town town = gp.getTown();
-            if (town == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (town.getFaction().getTowns().size() == 1)
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_DISBAND_LASTTOWN);
-            else if (!town.hasPermission(gp.getName(), "town.disband"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else
-            {
-                QuestionListener.addQuestion(new TownDisbandQuestion(getPlugin(), sender, town));
-                sender.sendMessage(GroupLanguage.QUESTION_TOWN_DISBAND_QUESTION);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Town town = gp.getTown();
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (town.getFaction().getTowns().size() == 1)
+            return GroupLanguage.COMMAND_TOWN_DISBAND_LASTTOWN;
+        if (!town.hasPermission(gp.getName(), "town.disband"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        QuestionListener.addQuestion(new TownDisbandQuestion(getPlugin(), sender, town));
+        return GroupLanguage.QUESTION_TOWN_DISBAND_QUESTION;
     }
     
     @Override

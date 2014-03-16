@@ -27,8 +27,10 @@ public class PlotCommandHandler extends CommandHandler
         registerSubCommand("help", new PlotHelpCommand("clgroups.commands.plot.help", plugin, getCommands()));
         registerSubCommand("info", new PlotInfoCommand("clgroups.commands.plot.info", plugin));
         registerSubCommand("claim", new PlotClaimCommand("clgroups.commands.plot.buy", plugin), "buy");
-        //registerSubCommand("sale", new PlotSaleCommand("clgroups.commands.plot.sell", plugin));
-        //registerSubCommand("unsale", new PlotUnsaleCommand("clgroups.commands.plot.unsale", plugin));
+        // registerSubCommand("sale", new
+        // PlotSaleCommand("clgroups.commands.plot.sell", plugin));
+        // registerSubCommand("unsale", new
+        // PlotUnsaleCommand("clgroups.commands.plot.unsale", plugin));
         registerSubCommand("leave", new PlotLeaveCommand("clgroups.commands.plot.leave", plugin));
         registerSubCommand("gift", new PlotGiftCommand("clgroups.commands.plot.gift", plugin));
         registerSubCommand("add", new PlotAddPlayerCommand("clgroups.commands.plot.add", plugin));

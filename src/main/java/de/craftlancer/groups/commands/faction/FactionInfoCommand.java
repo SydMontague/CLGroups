@@ -22,49 +22,44 @@ public class FactionInfoCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2 && !(sender instanceof Player))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (args.length >= 2 && !FactionManager.hasFaction(args[1]))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOFACTION);
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2 && !(sender instanceof Player))
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        if (args.length >= 2 && !FactionManager.hasFaction(args[1]))
+            return GroupLanguage.COMMAND_GENERAL_NOFACTION;
+        
+        Faction f;
+        
+        if (args.length >= 2)
+            f = FactionManager.getFaction(args[1]);
         else
-        {
-            Faction f;
-            
-            if (args.length >= 2)
-                f = FactionManager.getFaction(args[1]);
-            else
-                f = FactionManager.getPlayerGroup(sender.getName());
-            
-            if (f == null)
-            {
-                sender.sendMessage("Du bist in keiner Fraktion!");
-                return;
-            }
-            
-            StringBuilder str = new StringBuilder();
-            for (String g : f.getTownNames())
-                str.append(g + ", ");
-            if (str.length() > 2)
-                str.delete(str.length() - 2, str.length());
-            
-            StringBuilder member = new StringBuilder();
-            
-            for (String g : f.getMember())
-                member.append(g + ", ");
-            if (member.length() > 2)
-                member.delete(member.length() - 2, member.length());
-            
-            sender.sendMessage(GroupLanguage.COMMAND_FACTION_INFO_HEADER);
-            sender.sendMessage("Name: " + f.getName() + "  Tag: " + f.getTag() + "  Color: " + f.getColor() + f.getColor().name());
-            sender.sendMessage("No.Towns: " + f.getTowns().size() + "  Members: " + f.getMember().size() + "  DefaultRepu: " + f.getDefaultRepu());
-            sender.sendMessage("Towns: " + str.toString());
-            sender.sendMessage("Member: " + member.toString());
-            
-        }
+            f = FactionManager.getPlayerGroup(sender.getName());
+        
+        if (f == null)
+            return "Du bist in keiner Fraktion!";
+        
+        StringBuilder str = new StringBuilder();
+        for (String g : f.getTownNames())
+            str.append(g + ", ");
+        if (str.length() > 2)
+            str.delete(str.length() - 2, str.length());
+        
+        StringBuilder member = new StringBuilder();
+        
+        for (String g : f.getMember())
+            member.append(g + ", ");
+        if (member.length() > 2)
+            member.delete(member.length() - 2, member.length());
+        
+        sender.sendMessage(GroupLanguage.COMMAND_FACTION_INFO_HEADER);
+        sender.sendMessage("Name: " + f.getName() + "  Tag: " + f.getTag() + "  Color: " + f.getColor() + f.getColor().name());
+        sender.sendMessage("No.Towns: " + f.getTowns().size() + "  Members: " + f.getMember().size() + "  DefaultRepu: " + f.getDefaultRepu());
+        sender.sendMessage("Towns: " + str.toString());
+        sender.sendMessage("Member: " + member.toString());
+        return null;
     }
     
     @Override

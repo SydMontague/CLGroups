@@ -38,8 +38,8 @@ public class FactionGiftLeaderQuestion extends Question
                 senderSet.add(p.getPlayer());
         }
         
-        for(CommandSender sender : getSender())
-            sender.sendMessage(GroupLanguage.QUESTION_FACTION_GIFT_LEADER_NEXT);        
+        for (CommandSender sender : getSender())
+            sender.sendMessage(GroupLanguage.QUESTION_FACTION_GIFT_LEADER_NEXT);
         QuestionListener.addQuestion(new FactionGiftMayorQuestion(senderSet, town, faction, getSender()));
     }
     

@@ -15,10 +15,10 @@ public class FactionMergeCommand extends SubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         // TODO Faction Merge Befehl
-        
+        return null;
     }
     
     @Override

@@ -20,35 +20,30 @@ public class PlotSaleCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        // int price;
+        try
         {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            //int price;
-            try
-            {
-                //price = Integer.parseInt(args[1]);
-            }
-            catch (NumberFormatException e)
-            {
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTANUMBER);
-                return;
-            }
-            
-            if (!plot.isOwner(p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_NOTOWNER);
-            else
-            {
-                //plot.setForSale(true, price);
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_SALE_SUCCESS);
-            }
+            // price = Integer.parseInt(args[1]);
         }
+        catch (NumberFormatException e)
+        {
+            return GroupLanguage.COMMAND_GENERAL_NOTANUMBER;
+        }
+        
+        if (!plot.isOwner(p))
+            return GroupLanguage.COMMAND_PLOT_NOTOWNER;
+        
+        // plot.setForSale(true, price);
+        return GroupLanguage.COMMAND_PLOT_SALE_SUCCESS;
     }
     
     @Override

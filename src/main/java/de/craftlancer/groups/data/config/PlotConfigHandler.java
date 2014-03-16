@@ -31,7 +31,7 @@ public class PlotConfigHandler extends ConfigDataHandler implements PlotDataHand
         
         saveConfig();
     }
-
+    
     public static PlotConfigHandler getInstance()
     {
         if (instance == null)

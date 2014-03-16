@@ -23,47 +23,43 @@ public class TownInfoCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2 && !(sender instanceof Player))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (args.length >= 2 && !TownManager.hasTown(args[1]))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTOWN);
-        else
-        {
-            Town town;
-            if (args.length >= 2)
-                town = TownManager.getTown(args[1]);
-            else
-                town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
-            
-            if (town == null)
-            {
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-                return;
-            }
-            
-            StringBuilder memstr = new StringBuilder();
-            StringBuilder maystr = new StringBuilder();
-            for (String g : town.getMember())
-                memstr.append(g + ", ");
-            for (String g : town.getMayors())
-                maystr.append(g + ", ");
-            if (memstr.length() > 2)
-                memstr.delete(memstr.length() - 2, memstr.length());
-            if (maystr.length() > 2)
-                maystr.delete(maystr.length() - 2, maystr.length());
-            
-            sender.sendMessage(GroupLanguage.COMMAND_TOWN_INFO_HEADER);
-            sender.sendMessage("Name: " + town.getName() + "  Faction: " + town.getFaction().getName());
-            sender.sendMessage("No.Plots: " + town.getPlots().size() + "  Members: " + town.getMember().size());
-            sender.sendMessage("Member: " + memstr.toString());
-            sender.sendMessage("Mayor: " + maystr.toString());
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2 && !(sender instanceof Player))
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        if (args.length >= 2 && !TownManager.hasTown(args[1]))
+            return GroupLanguage.COMMAND_GENERAL_NOTOWN;
         
+        Town town;
+        if (args.length >= 2)
+            town = TownManager.getTown(args[1]);
+        else
+            town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
+        
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        
+        StringBuilder memstr = new StringBuilder();
+        StringBuilder maystr = new StringBuilder();
+        for (String g : town.getMember())
+            memstr.append(g + ", ");
+        for (String g : town.getMayors())
+            maystr.append(g + ", ");
+        if (memstr.length() > 2)
+            memstr.delete(memstr.length() - 2, memstr.length());
+        if (maystr.length() > 2)
+            maystr.delete(maystr.length() - 2, maystr.length());
+        
+        sender.sendMessage(GroupLanguage.COMMAND_TOWN_INFO_HEADER);
+        sender.sendMessage("Name: " + town.getName() + "  Faction: " + town.getFaction().getName());
+        sender.sendMessage("No.Plots: " + town.getPlots().size() + "  Members: " + town.getMember().size());
+        sender.sendMessage("Member: " + memstr.toString());
+        sender.sendMessage("Mayor: " + maystr.toString());
+        
+        return null;
     }
     
     @Override

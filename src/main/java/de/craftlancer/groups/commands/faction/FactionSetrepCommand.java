@@ -27,48 +27,40 @@ public class FactionSetrepCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
-    {        
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
+    {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 3)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (!Reputation.getNames().contains(args[args.length - 1].toUpperCase()))
-            sender.sendMessage(GroupLanguage.COMMAND_FACTION_NOTAREPU);
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 3)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        if (!Reputation.getNames().contains(args[args.length - 1].toUpperCase()))
+            return GroupLanguage.COMMAND_FACTION_NOTAREPU;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        Reputation repu = Reputation.valueOf(args[args.length - 1].toUpperCase());
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (!f.hasPermission(sender.getName(), "faction.setrep"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        
+        Repuable repuable;
+        
+        if (args[1].startsWith("p:"))
+            repuable = PlayerManager.getGroupPlayer(args[1].substring(2));
+        else if (args[1].startsWith("f:"))
+            repuable = FactionManager.getFaction(args[1].substring(2));
         else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            Reputation repu = Reputation.valueOf(args[args.length - 1].toUpperCase());
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (!f.hasPermission(sender.getName(), "faction.setrep"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else
-            {
-                Repuable repuable;
-                
-                if (args[1].startsWith("p:"))
-                    repuable = PlayerManager.getGroupPlayer(args[1].substring(2));
-                else if (args[1].startsWith("f:"))
-                    repuable = FactionManager.getFaction(args[1].substring(2));
-                else
-                    repuable = FactionManager.hasFaction(args[1]) ? FactionManager.getFaction(args[1]) : PlayerManager.getGroupPlayer(args[1]);
-                
-                if (repuable == null)
-                {
-                    sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOFACTION);
-                    return;
-                }
-                
-                f.setReputation(repuable, repu);
-                
-                String type = repuable instanceof Faction ? "Fraktion" : "Spieler";
-                
-                sender.sendMessage(String.format(GroupLanguage.COMMAND_FACTION_SETREP_SUCCESS, type, repuable.getName()));
-            }
-        }
+            repuable = FactionManager.hasFaction(args[1]) ? FactionManager.getFaction(args[1]) : PlayerManager.getGroupPlayer(args[1]);
+        
+        if (repuable == null)
+            return GroupLanguage.COMMAND_GENERAL_NOFACTION;
+        
+        f.setReputation(repuable, repu);
+        String type = repuable instanceof Faction ? "Fraktion" : "Spieler";
+        
+        return String.format(GroupLanguage.COMMAND_FACTION_SETREP_SUCCESS, type, repuable.getName());
     }
     
     @Override

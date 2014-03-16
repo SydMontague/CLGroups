@@ -18,15 +18,16 @@ public class TownBuildPlaceCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 4)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 4)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
         
         // TODO Auto-generated method stub
         getPlugin().getBuildingManager().startBuilding((Player) sender, getPlugin().getFeature("default"));
+        return null;
     }
     
     @Override

@@ -25,36 +25,32 @@ public class TownPlotAddCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 3)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            Town t = plot.getTown();
-            Faction f = t.getFaction();
-            
-            if (plot.getTown() == null || plot.getOwner() != null)
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN);
-            else if (!plot.getTown().hasPermission(p.getName(), "town.plot.add"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 3)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        Town t = plot.getTown();
+        Faction f = t.getFaction();
+        
+        if (plot.getTown() == null || plot.getOwner() != null)
+            return GroupLanguage.COMMAND_TOWN_PLOT_NOT_OWN;
+        if (!plot.getTown().hasPermission(p.getName(), "town.plot.add"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        for (int i = 2; i < args.length; i++)
+            if (args[i].startsWith("t:"))
+                plot.addGroup(t.getGroup(args[i].substring(2)));
+            else if (args[i].startsWith("f:"))
+                plot.addGroup(f.getGroup(args[i].substring(2)));
             else
-            {
-                for (int i = 2; i < args.length; i++)
-                    if (args[i].startsWith("t:"))
-                        plot.addGroup(t.getGroup(args[i].substring(2)));
-                    else if (args[i].startsWith("f:"))
-                        plot.addGroup(f.getGroup(args[i].substring(2)));
-                    else
-                        plot.addPlayer(args[i]);
-                
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_PLOT_ADD_SUCCESS);
-            }
-        }
+                plot.addPlayer(args[i]);
+        
+        return GroupLanguage.COMMAND_TOWN_PLOT_ADD_SUCCESS;
     }
     
     @Override

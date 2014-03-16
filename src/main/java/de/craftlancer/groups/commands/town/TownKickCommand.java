@@ -20,36 +20,41 @@ public class TownKickCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else if (!getPlugin().getServer().getOfflinePlayer(args[1]).hasPlayedBefore())
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOPLAYER);
-        else if (sender.getName().equalsIgnoreCase(args[1]))
-            sender.sendMessage(GroupLanguage.COMMAND_TOWN_KICK_SELF);
-        else
-            for (int i = 1; i < args.length; i++)
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        if (!getPlugin().getServer().getOfflinePlayer(args[1]).hasPlayedBefore())
+            return GroupLanguage.COMMAND_GENERAL_NOPLAYER;
+        if (sender.getName().equalsIgnoreCase(args[1]))
+            return GroupLanguage.COMMAND_TOWN_KICK_SELF;
+        
+        Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
+        
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (!town.hasPermission(sender.getName(), "town.kick"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        for (int i = 1; i < args.length; i++)
+        {
+            GroupPlayer gp = PlayerManager.getGroupPlayer(args[i]);
+            OfflinePlayer p = getPlugin().getServer().getOfflinePlayer(args[i]);
+            
+            if (!town.equals(gp.getTown()))
+                sender.sendMessage(GroupLanguage.COMMAND_TOWN_KICK_NOTINTOWN);
+            else
             {
-                GroupPlayer gp = PlayerManager.getGroupPlayer(args[i]);
-                OfflinePlayer p = getPlugin().getServer().getOfflinePlayer(args[i]);
-                Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
-                
-                if (town == null || !town.equals(gp.getTown()))
-                    sender.sendMessage(GroupLanguage.COMMAND_TOWN_KICK_NOTINTOWN);
-                else if (!town.hasPermission(sender.getName(), "town.kick"))
-                    sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-                else
-                {
-                    town.removeMember(args[i]);
-                    sender.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_KICK_SUCCESS, p.getName()));
-                    if (p.isOnline())
-                        p.getPlayer().sendMessage(GroupLanguage.COMMAND_TOWN_KICK_KICKED);
-                    town.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_KICK_BROADCASTKICKED, p.getName(), sender.getName()));
-                }
+                town.removeMember(args[i]);
+                sender.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_KICK_SUCCESS, p.getName()));
+                if (p.isOnline())
+                    p.getPlayer().sendMessage(GroupLanguage.COMMAND_TOWN_KICK_KICKED);
+                town.sendMessage(String.format(GroupLanguage.COMMAND_TOWN_KICK_BROADCASTKICKED, p.getName(), sender.getName()));
             }
+        }
+        return null;
     }
     
     @Override

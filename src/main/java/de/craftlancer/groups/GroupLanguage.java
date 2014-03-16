@@ -4,7 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class GroupLanguage
 {
-    public static String GAME_BUILD_FORBIDDEN = "Du kannst hier nicht bauen.";    
+    public static String GAME_BUILD_FORBIDDEN = "Du kannst hier nicht bauen.";
     public static String COMMAND_GENERAL_UNABLE = "Du kannst diesen Befehl nicht ausführen.";
     public static String COMMAND_GENERAL_NOTINFACTION = "Du musst in einer Fraktion sein, um diesen Befehl auszuführen.";
     public static String COMMAND_GENERAL_NOTINTOWN = "Du musst in einer Stadt sein, um diesen Befehl auszuführen.";
@@ -36,8 +36,8 @@ public class GroupLanguage
     public static String COMMAND_FACTION_NEW_TOWNEXISTS = "Es existiert bereits eine Stadt mit diesem Namen.";
     public static String COMMAND_FACTION_NEW_FACTIONEXISTS = "Es existiert bereits eine Fraktion mit diesem Namen.";
     public static String COMMAND_FACTION_NEW_SUCCESS = "Fraktionsgründung erfolgreich.";
-    public static String COMMAND_FACTION_NEW_BROADCAST = "Die Fraktion %1$s mit der Hauptstadt %2$s wurde gegründet.";    
-    public static String COMMAND_FACTION_RENAME_BROADCAST = "Die Fraktion %1$s wurde in %2$s umbenannt!";    
+    public static String COMMAND_FACTION_NEW_BROADCAST = "Die Fraktion %1$s mit der Hauptstadt %2$s wurde gegründet.";
+    public static String COMMAND_FACTION_RENAME_BROADCAST = "Die Fraktion %1$s wurde in %2$s umbenannt!";
     public static String COMMAND_FACTION_RENAME_EXISTS = "Es existiert bereits eine Fraktion mit diesem Namen.";
     public static String COMMAND_FACTION_RENAME_SUCCESS = "Fraktion erfolgreich umbenannt.";
     public static String COMMAND_FACTION_SETREP_SUCCESS = "Reputation für %1$s %2$s erfolgreich gesetzt.";
@@ -135,7 +135,8 @@ public class GroupLanguage
     public static String QUESTION_TOWN_INVITE_INTOWNT = "%1$s konnte die Einladung nicht annehmen, da er bereits in einer Stadt ist.";
     public static String BUILDING_INVENTORY_FULL = "Dein Inventar ist zu voll.";
     public static String ECONOMY_NOT_ENOUGH_MONEY = "Du hast nicht genug Geld.";
-        
+    
+    @SuppressWarnings("unused")
     protected static void loadStrings(FileConfiguration config)
     {
         // COMMAND_PERMISSION = config.getString("string.COMMAND_PERMISSION");

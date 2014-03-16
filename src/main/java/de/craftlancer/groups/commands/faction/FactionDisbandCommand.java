@@ -21,24 +21,21 @@ public class FactionDisbandCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (!f.hasPermission(gp.getName(), "faction.disband"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else
-            {
-                QuestionListener.addQuestion(new FactionDisbandQuestion(getPlugin(), sender, f));
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (!f.hasPermission(gp.getName(), "faction.disband"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        
+        QuestionListener.addQuestion(new FactionDisbandQuestion(getPlugin(), sender, f));
+        return null;
     }
     
     @Override

@@ -21,7 +21,7 @@ public class FactionManager
     
     public static FactionManager getInstance()
     {
-        if(instance == null)
+        if (instance == null)
             instance = new FactionManager();
         
         return instance;

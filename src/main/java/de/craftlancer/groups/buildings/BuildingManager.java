@@ -49,7 +49,7 @@ public class BuildingManager implements Listener
             Building build = builder.remove(e.getPlayer().getName());
             Town t = PlayerManager.getGroupPlayer(e.getPlayer().getName()).getTown();
             
-            if(t == null || build == null)
+            if (t == null || build == null)
                 return;
             
             t.addBuilding(build);

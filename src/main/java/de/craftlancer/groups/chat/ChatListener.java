@@ -24,7 +24,7 @@ public class ChatListener implements Listener
         Player p = e.getPlayer();
         Channel chan = manager.getActiveChannel(p);
         
-        if(!chan.isAllowed(p))
+        if (!chan.isAllowed(p))
         {
             manager.joinChannel(p, manager.getDefaultChannel());
             chan = manager.getActiveChannel(p);

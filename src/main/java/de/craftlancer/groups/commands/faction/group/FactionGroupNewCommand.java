@@ -20,29 +20,25 @@ public class FactionGroupNewCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 3)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Faction f = gp.getFaction();
-            
-            if (f == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINFACTION);
-            else if (f.hasGroup(args[2]))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_EXISTS);
-            else if (!f.hasPermission(sender.getName(), "faction.group.new"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION);
-            else
-            {
-                f.addGroup(args[2], new Group(getPlugin(), args[2], f));
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_NEW_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 3)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Faction f = gp.getFaction();
+        
+        if (f == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINFACTION;
+        if (f.hasGroup(args[2]))
+            return GroupLanguage.COMMAND_GROUP_EXISTS;
+        if (!f.hasPermission(sender.getName(), "faction.group.new"))
+            return GroupLanguage.COMMAND_GENERAL_FACTION_PERMISSION;
+        
+        f.addGroup(args[2], new Group(getPlugin(), args[2], f));
+        return GroupLanguage.COMMAND_GROUP_NEW_SUCCESS;
     }
     
     @Override

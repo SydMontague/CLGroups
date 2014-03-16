@@ -19,26 +19,22 @@ public class TownFarewellCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Town town = gp.getTown();
-            if (town == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (!town.hasPermission(gp.getName(), "town.farewell"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else
-            {
-                town.setFarewellMsg(args[1]);
-                sender.sendMessage(GroupLanguage.COMMAND_TOWN_FAREWELL_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Town town = gp.getTown();
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (!town.hasPermission(gp.getName(), "town.farewell"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        town.setFarewellMsg(args[1]);
+        return GroupLanguage.COMMAND_TOWN_FAREWELL_SUCCESS;
     }
     
     @Override

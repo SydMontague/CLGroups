@@ -21,37 +21,32 @@ public class ChannelTownCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
-            Town t = gp.getTown();
-            
-            if (t == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (!t.getChannel().isAllowed(sender.getName()))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else
-            {
-                Channel chan = getPlugin().getChatManager().getActiveChannel((Player) sender);
-                getPlugin().getChatManager().joinChannel(sender.getName(), t.getChannel());
-                
-                if (args.length == 1)
-                    sender.sendMessage(GroupLanguage.COMMAND_CHAT_JOIN_TOWN);
-                else
-                {
-                    StringBuilder str = new StringBuilder();
-                    for (int i = 1; i < args.length; i++)
-                        str.append(args[i] + " ");
-                    
-                    ((Player) sender).chat(str.toString());
-                    getPlugin().getChatManager().joinChannel((Player) sender, chan);
-                }
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        GroupPlayer gp = PlayerManager.getGroupPlayer(sender.getName());
+        Town t = gp.getTown();
+        
+        if (t == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (!t.getChannel().isAllowed(sender.getName()))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        
+        Channel chan = getPlugin().getChatManager().getActiveChannel((Player) sender);
+        getPlugin().getChatManager().joinChannel(sender.getName(), t.getChannel());
+        
+        if (args.length == 1)
+            return GroupLanguage.COMMAND_CHAT_JOIN_TOWN;
+        
+        StringBuilder str = new StringBuilder();
+        for (int i = 1; i < args.length; i++)
+            str.append(args[i] + " ");
+        
+        ((Player) sender).chat(str.toString());
+        getPlugin().getChatManager().joinChannel((Player) sender, chan);
+        return null;
     }
     
     @Override

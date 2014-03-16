@@ -19,27 +19,23 @@ public class PlotAddPlayerCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 2)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            
-            if (!plot.isOwner(p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_NOTOWNER);
-            else
-            {
-                for (int i = 1; i < args.length; i++)
-                    plot.addPlayer(args[i]);
-                
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_ADD_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 2)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        
+        if (!plot.isOwner(p))
+            return GroupLanguage.COMMAND_PLOT_NOTOWNER;
+        
+        for (int i = 1; i < args.length; i++)
+            plot.addPlayer(args[i]);
+        
+        return GroupLanguage.COMMAND_PLOT_ADD_SUCCESS;
     }
     
     @Override

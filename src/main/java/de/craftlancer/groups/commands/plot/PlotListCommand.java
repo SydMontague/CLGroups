@@ -21,25 +21,24 @@ public class PlotListCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Set<Plot> plots = PlotManager.getPlots(p);
-            
-            sender.sendMessage(GroupLanguage.COMMAND_PLOT_LIST_HEADER);
-            StringBuilder str = new StringBuilder();
-            for (Plot g : plots)
-                str.append(g.getPosiString() + ", ");
-            if (str.length() > 2)
-                str.delete(str.length() - 2, str.length());
-            sender.sendMessage(str.toString());
-        }
-    }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
         
+        Player p = (Player) sender;
+        Set<Plot> plots = PlotManager.getPlots(p);
+        
+        sender.sendMessage(GroupLanguage.COMMAND_PLOT_LIST_HEADER);
+        StringBuilder str = new StringBuilder();
+        for (Plot g : plots)
+            str.append(g.getPosiString() + ", ");
+        if (str.length() > 2)
+            str.delete(str.length() - 2, str.length());
+        
+        return str.toString();
+    }
+    
     @Override
     public void help(CommandSender sender)
     {

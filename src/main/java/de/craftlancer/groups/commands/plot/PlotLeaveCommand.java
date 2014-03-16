@@ -18,23 +18,19 @@ public class PlotLeaveCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            
-            if (!plot.isOwner(p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_NOTOWNER);
-            else
-            {
-                plot.setOwner(null);
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_LEAVE_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        
+        if (!plot.isOwner(p))
+            return GroupLanguage.COMMAND_PLOT_NOTOWNER;
+        
+        plot.setOwner(null);
+        return GroupLanguage.COMMAND_PLOT_LEAVE_SUCCESS;
     }
     
     @Override

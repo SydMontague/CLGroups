@@ -20,23 +20,19 @@ public class PlotUnsaleCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else
-        {
-            Player p = (Player) sender;
-            Plot plot = PlotManager.getPlot(p.getLocation());
-            
-            if (!plot.isOwner(p))
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_NOTOWNER);
-            else
-            {
-                //plot.setForSale(false, 0);
-                sender.sendMessage(GroupLanguage.COMMAND_PLOT_UNSALE_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        
+        Player p = (Player) sender;
+        Plot plot = PlotManager.getPlot(p.getLocation());
+        
+        if (!plot.isOwner(p))
+            return GroupLanguage.COMMAND_PLOT_NOTOWNER;
+        
+        // plot.setForSale(false, 0);
+        return GroupLanguage.COMMAND_PLOT_UNSALE_SUCCESS;
     }
     
     @Override
@@ -44,5 +40,4 @@ public class PlotUnsaleCommand extends GroupSubCommand
     {
         sender.sendMessage("/plot unsale - Entfernt den Verkaufsstatus vom Plot");
     }
-    
 }

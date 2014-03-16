@@ -23,34 +23,30 @@ public class TownGroupAddpermCommand extends GroupSubCommand
     }
     
     @Override
-    protected void execute(CommandSender sender, Command cmd, String label, String[] args)
+    protected String execute(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!checkSender(sender))
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_UNABLE);
-        else if (args.length < 4)
-            sender.sendMessage(GroupLanguage.COMMAND_GENERAL_ARGUMENTS);
-        else
-        {
-            Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
-            
-            if (town == null)
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_NOTINTOWN);
-            else if (!town.hasGroup(args[2]))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_NOSUCHGROUP);
-            else if (!town.hasPermission(sender.getName(), "town.group.addperm"))
-                sender.sendMessage(GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION);
-            else if (args[2].equals("mayors") || args[2].equals("members"))
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_PROTECTED);
-            else
-            {
-                Group g = town.getGroup(args[2]);
-                for (int i = 3; i < args.length; i++)
-                    if (town.hasPermission(sender.getName(), args[i]))
-                        g.addPermission(args[i]);
-                
-                sender.sendMessage(GroupLanguage.COMMAND_GROUP_ADDPERM_SUCCESS);
-            }
-        }
+            return GroupLanguage.COMMAND_GENERAL_UNABLE;
+        if (args.length < 4)
+            return GroupLanguage.COMMAND_GENERAL_ARGUMENTS;
+        
+        Town town = PlayerManager.getGroupPlayer(sender.getName()).getTown();
+        
+        if (town == null)
+            return GroupLanguage.COMMAND_GENERAL_NOTINTOWN;
+        if (!town.hasGroup(args[2]))
+            return GroupLanguage.COMMAND_GROUP_NOSUCHGROUP;
+        if (!town.hasPermission(sender.getName(), "town.group.addperm"))
+            return GroupLanguage.COMMAND_GENERAL_TOWN_PERMISSION;
+        if (args[2].equals("mayors") || args[2].equals("members"))
+            return GroupLanguage.COMMAND_GROUP_PROTECTED;
+        
+        Group g = town.getGroup(args[2]);
+        for (int i = 3; i < args.length; i++)
+            if (town.hasPermission(sender.getName(), args[i]))
+                g.addPermission(args[i]);
+        
+        return GroupLanguage.COMMAND_GROUP_ADDPERM_SUCCESS;
     }
     
     @Override

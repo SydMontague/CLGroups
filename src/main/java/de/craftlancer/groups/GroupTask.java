@@ -22,7 +22,7 @@ public class GroupTask extends BukkitRunnable
     public void run()
     {
         for (Player p : plugin.getServer().getOnlinePlayers())
-        {            
+        {
             Plot f = PlotManager.getPlot(locMap.containsKey(p.getName()) ? locMap.get(p.getName()) : p.getLocation());
             Plot t = PlotManager.getPlot(p.getLocation());
             Town from = f.getTown();
