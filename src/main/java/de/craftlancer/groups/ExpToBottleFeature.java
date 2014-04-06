@@ -40,7 +40,6 @@ public class ExpToBottleFeature extends TownFeature
         
         this.costPerBottle = config.getInt(getKey() + ".costPerBottle", 0);
         this.recivePerBottle = config.getInt(getKey() + ".recivePerBottle", 0);
-        // TODO Auto-generated constructor stub
     }
     
     public int getCostPerBottle()
