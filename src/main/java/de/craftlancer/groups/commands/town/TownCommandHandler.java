@@ -56,7 +56,6 @@ public class TownCommandHandler extends CommandHandler
         registerSubCommand("login", new TownLoginCommand("clgroups.commands.town.login", plugin));
         registerSubCommand("plot", new TownPlotCommand("clgroups.commands.town.plot", plugin));
         registerSubCommand("group", new TownGroupCommand("clgroups.commands.town.group", plugin));
-        registerSubCommand("build", new TownBuildCommand("clgroups.commands.town.build", plugin));
         registerSubCommand("admin", new TownAdminCommand("clgroups.commands.town.admin", plugin));
     }
 }

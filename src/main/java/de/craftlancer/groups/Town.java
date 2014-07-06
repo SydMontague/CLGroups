@@ -1,14 +1,12 @@
 package de.craftlancer.groups;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import de.craftlancer.groups.buildings.Building;
 import de.craftlancer.groups.chat.Channel;
 import de.craftlancer.groups.chat.TownChannel;
 import de.craftlancer.groups.managers.FactionManager;
@@ -38,7 +36,6 @@ public class Town extends GroupHolder
     private List<Plot> plots = new ArrayList<Plot>();
     private String welcomeMsg, farewellMsg, loginMsg;
     private Channel chan;
-    private List<Building> buildings = new LinkedList<Building>();
     
     // private List<FeatureType> tokens = new LinkedList<FeatureType>();
     
@@ -209,12 +206,6 @@ public class Town extends GroupHolder
     public String getHolderPrefix()
     {
         return "t:";
-    }
-    
-    public void addBuilding(Building build)
-    {
-        buildings.add(build);
-        build.setTown(this);
     }
     
     public boolean hasTownBank()

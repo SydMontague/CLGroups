@@ -1,16 +1,12 @@
 package de.craftlancer.groups;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lemon42.PvPTimer.PvPTimer;
 
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.craftlancer.core.CLPlugin;
-import de.craftlancer.groups.buildings.BuildingManager;
 import de.craftlancer.groups.chat.ChatManager;
 import de.craftlancer.groups.commands.chat.ChannelCommandHandler;
 import de.craftlancer.groups.commands.chat.MsgCommand;
@@ -34,9 +30,6 @@ public class CLGroups extends JavaPlugin implements CLPlugin
     private static CLGroups instance;
     private ChatManager chat;
     
-    private BuildingManager bManager = new BuildingManager(this);
-    private Map<String, TownFeature> features = new HashMap<String, TownFeature>();
-    
     private FactionDataHandler fhandler;
     private PlotDataHandler phandler;
     private TownDataHandler thandler;
@@ -58,7 +51,6 @@ public class CLGroups extends JavaPlugin implements CLPlugin
         chat = new ChatManager(this);
         load();
         
-        getServer().getPluginManager().registerEvents(bManager, this);
         getServer().getPluginManager().registerEvents(new GroupListener(this), this);
         getServer().getPluginManager().registerEvents(new QuestionListener(this), this);
         
@@ -76,22 +68,12 @@ public class CLGroups extends JavaPlugin implements CLPlugin
     {
         getServer().getScheduler().cancelTasks(this);
         
-        for (Player p : getServer().getOnlinePlayers())
-        {
-            bManager.stopBuilding(p);
-        }
-        
         save();
     }
     
     public PvPTimer getPvPTimer()
     {
         return timer;
-    }
-    
-    public BuildingManager getBuildingManager()
-    {
-        return bManager;
     }
     
     public static CLGroups getInstance()
@@ -131,16 +113,6 @@ public class CLGroups extends JavaPlugin implements CLPlugin
     public List<String> getDefLeaderPerms()
     {
         return GroupDefaultLists.LEADER_PERMS;
-    }
-    
-    public TownFeature getFeature(String string)
-    {
-        return features.get(string);
-    }
-    
-    public void addFeature(TownFeature feature)
-    {
-        features.put(feature.getName(), feature);
     }
     
     public FactionDataHandler getFactionDataHandler()
